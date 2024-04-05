@@ -1,0 +1,55 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Portal : MonoBehaviour
+{
+    private Rigidbody2D enteredRigidbody;
+    private float enterVelocity;
+    private float exitVelocity;
+
+    [SerializeField] PortalControl _portalControl;
+
+    private void Start()
+    {
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (GameObject.Find("clone"))
+            return;
+        enteredRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
+        enterVelocity = enteredRigidbody.velocity.x;
+        
+
+        if (gameObject.name == "LeftPortal")
+        {
+            _portalControl.DisableCollider("right");
+            _portalControl.SpawnClone("right");
+             FindObjectOfType<PlayerState>().direction = PlayerState.DirectionEnum.LEFT;
+        }
+        else if (gameObject.name == "RightPortal")
+        {
+            _portalControl.DisableCollider("left");
+            _portalControl.SpawnClone("left");
+            FindObjectOfType<PlayerState>().direction =  PlayerState.DirectionEnum.RIGHT;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        exitVelocity = enteredRigidbody.velocity.x;
+
+        if (enterVelocity != exitVelocity)
+        {
+            Destroy(GameObject.Find("Clone"));
+        }
+        else if (gameObject.name != "clone")
+        {
+            Destroy(other.gameObject);
+            _portalControl.EnableColliders();
+            GameObject.Find("clone").name = "Player";
+        }
+    }
+}
