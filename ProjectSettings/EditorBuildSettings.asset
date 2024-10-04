@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Hub.unity
+    guid: 4c4842c3b38fc7a49bb551e186a4e54d
+  - enabled: 1
+    path: Assets/Scenes/Docks.unity
+    guid: b360071fbca62014587c162bcbd4b94b
+  - enabled: 1
     path: "Assets/Scenes/\u041F\u0440\u043E\u0435\u043A\u0442 \u042F \u043D\u0438\u0447\u0435\u0433\u043E
       \u043D\u0435 \u0443\u0441\u043F\u0435\u043B\u0430/Scene 1.unity"
     guid: 5120e5a91f7e33145a0a5a76abb45640

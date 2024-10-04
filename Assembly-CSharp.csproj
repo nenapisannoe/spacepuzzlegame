@@ -52,16 +52,19 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameController.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\Field.cs" />
-     <Compile Include="Assets\PlayerState.cs" />
+     <Compile Include="Assets\Scripts\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
-     <Compile Include="Assets\ExitScript.cs" />
+     <Compile Include="Assets\Scripts\ExitScript.cs" />
      <Compile Include="Assets\Scripts\Portal Game\MoveCharacter.cs" />
      <Compile Include="Assets\Scripts\Wires Game\WiresField.cs" />
      <Compile Include="Assets\Scripts\Wires Game\WiresTile.cs" />
      <Compile Include="Assets\Scripts\Portal Game\Portal.cs" />
      <Compile Include="Assets\Scripts\Portal Game\PortalControl.cs" />
+     <Compile Include="Assets\Scripts\InputManager.cs" />
+     <Compile Include="Assets\Scripts\Door.cs" />
+     <Compile Include="Assets\ResumeUI.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
