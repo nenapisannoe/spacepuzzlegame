@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: RoverPositionData
   m_EditorClassIdentifier: 
   initialPositions:
-  - {x: -5, y: 0}
+  - {x: -8, y: 0}

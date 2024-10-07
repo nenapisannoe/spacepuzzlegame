@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 465685611}
   - component: {fileID: 465685610}
   m_Layer: 0
-  m_Name: LeftPortal
+  m_Name: ExitPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -439,10 +439,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 465685609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cdd39b76d5299844822a29e53c65067, type: 3}
+  m_Script: {fileID: 11500000, guid: 8af0d4373ab15244d9f1e7ad84f13c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _portalControl: {fileID: 1514684794}
+  _roverPortalController: {fileID: 1514684794}
 --- !u!61 &465685611
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -485,7 +485,7 @@ Transform:
   - {fileID: 1851923886}
   - {fileID: 274834624}
   m_Father: {fileID: 1514684793}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &483243780
 GameObject:
@@ -751,7 +751,7 @@ GameObject:
   - component: {fileID: 1188622858}
   - component: {fileID: 1188622857}
   m_Layer: 0
-  m_Name: RightPortal
+  m_Name: EnterPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -773,7 +773,7 @@ Transform:
   - {fileID: 483243781}
   - {fileID: 453643297}
   m_Father: {fileID: 1514684793}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1188622857
 MonoBehaviour:
@@ -784,10 +784,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1188622855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cdd39b76d5299844822a29e53c65067, type: 3}
+  m_Script: {fileID: 11500000, guid: 8af0d4373ab15244d9f1e7ad84f13c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _portalControl: {fileID: 1514684794}
+  _roverPortalController: {fileID: 1514684794}
 --- !u!61 &1188622858
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -951,11 +951,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1514684792}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.44, y: -0.39057684, z: -2.8709521}
+  m_LocalPosition: {x: -0.89, y: -0.39057684, z: -2.8709521}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 465685612}
   - {fileID: 1188622856}
+  - {fileID: 465685612}
   m_Father: {fileID: 237548820781046138}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -968,16 +968,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1514684792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f64147bf3ec2548a548c3ef0fd3e57, type: 3}
+  m_Script: {fileID: 11500000, guid: 4322d716de3748b44a37c48e05852695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftPortal: {fileID: 465685609}
-  rightPortal: {fileID: 1188622855}
-  leftPortalSpawnPoint: {fileID: 274834624}
-  rightPortalSpawnPoint: {fileID: 453643297}
-  leftPortalCollider: {fileID: 0}
-  rightPortalCollider: {fileID: 0}
-  clone: {fileID: 6210313101930927582, guid: 692bec1071718ef41a5b38eaf9869101, type: 3}
+  enterPortal: {fileID: 1188622855}
+  exitPortals:
+  - {fileID: 465685609}
+  enterPortalSpawnPoint: {fileID: 453643297}
+  exitPortalSpawnPoints:
+  - {fileID: 274834624}
+  enterPortalCollider: {fileID: 1188622858}
+  exitPortalColliders:
+  - {fileID: 465685611}
+  roverClones: []
+  clone: {fileID: 7848681505767385831, guid: c24dc1b8de8874c4994b6d0cc86f63bc, type: 3}
 --- !u!1 &1615968009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,11 +2668,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7848681505767385820, guid: c24dc1b8de8874c4994b6d0cc86f63bc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.22
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 7848681505767385820, guid: c24dc1b8de8874c4994b6d0cc86f63bc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.28
+      value: -0.29
       objectReference: {fileID: 0}
     - target: {fileID: 7848681505767385820, guid: c24dc1b8de8874c4994b6d0cc86f63bc, type: 3}
       propertyPath: m_LocalPosition.z
