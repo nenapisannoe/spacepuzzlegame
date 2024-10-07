@@ -10,18 +10,19 @@ public class Portal : MonoBehaviour
     private float exitVelocity;
 
     [SerializeField] PortalControl _portalControl;
-
-    private void Start()
-    {
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (GameObject.Find("clone"))
+        if (col.CompareTag("Rover"))
+        {
+            col.GetComponent<MoveRover>().KillRover();
+            return;
+        }
+        if (!col.CompareTag("Player") || GameObject.Find("clone"))
             return;
         enteredRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
         enterVelocity = enteredRigidbody.velocity.x;
-        
 
         if (gameObject.name == "LeftPortal")
         {
@@ -37,8 +38,10 @@ public class Portal : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D col)
     {
+        if (!col.CompareTag("Player"))
+            return;
         exitVelocity = enteredRigidbody.velocity.x;
 
         if (enterVelocity != exitVelocity)
@@ -47,7 +50,7 @@ public class Portal : MonoBehaviour
         }
         else if (gameObject.name != "clone")
         {
-            Destroy(other.gameObject);
+            Destroy(col.gameObject);
             _portalControl.EnableColliders();
             GameObject.Find("clone").name = "Player";
         }
