@@ -6,7 +6,7 @@ public class Field : MonoBehaviour
   private Tile[,] _grid;
   private bool _canDrawConnection = false;
 
-  [SerializeField] private List<Tile> _connections = new List<Tile>();
+  private List<Tile> _connections = new List<Tile>();
   private Tile _connectionTile;
 
   private List<int> _solvedConnections = new List<int>();
@@ -34,8 +34,13 @@ public class Field : MonoBehaviour
         _grid[x, y] = tile;
       }
     }
-    SetGameStatus(_solved, _amountToSolve.Count);
+    //SetGameStatus(_solved, _amountToSolve.Count);
     _OutputGrid();
+    foreach (var x in _amountToSolve)
+    {
+      if (x.Value % 2 != 0)
+        Debug.Log("wow ur stupid: " + x.Key);
+    }
   }
 
   void _CollectAmountToSolveFromTile(Tile tile)
@@ -97,9 +102,8 @@ public class Field : MonoBehaviour
         var deltaY = System.Math.Abs(connectionTilePosition.y - _mouseGridY);
         bool isShiftNotOnNext = deltaX > 1 || deltaY > 1;
         bool isShiftDiagonal = (deltaX > 0 && deltaY > 0);
-        bool isShiftBlocked = _grid[_mouseGridX, _mouseGridY].cid == -1;
         Debug.Log("Field -> OnMouseDrag: isShiftNotOnNext = " + isShiftNotOnNext + "| isShiftDiagonal = " + isShiftDiagonal);
-        if (isShiftNotOnNext || isShiftDiagonal || isShiftBlocked) return;
+        if (isShiftNotOnNext || isShiftDiagonal) return;
 
         hoverTile.Highlight();
         hoverTile.SetConnectionColor(_connectionTile.ConnectionColor);
@@ -110,8 +114,6 @@ public class Field : MonoBehaviour
           _mouseGridY < connectionTilePosition.y,
           _mouseGridX < connectionTilePosition.x
         );
-        
-        
 
         _connectionTile = hoverTile;
         _connections.Add(_connectionTile);
@@ -185,7 +187,7 @@ public class Field : MonoBehaviour
 
   void SetGameStatus(int solved, int from)
   {
-   // GameObject.Find("txtStatus").GetComponent<UnityEngine.UI.Text>().text = "Solve: " + solved + " from " + from;
+    //GameObject.Find("txtStatus").GetComponent<UnityEngine.UI.Text>().text = "Solve: " + solved + " from " + from;
   }
 
   void _ResetConnections()

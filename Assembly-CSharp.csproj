@@ -57,7 +57,9 @@
      <Compile Include="Assets\Scripts\Portal Game\Rover\MoveRover.cs" />
      <Compile Include="Assets\Scripts\DialogueManager.cs" />
      <Compile Include="Assets\Scripts\Door.cs" />
+     <Compile Include="Assets\StartWires.cs" />
      <Compile Include="Assets\Scripts\Field.cs" />
+     <Compile Include="Assets\Scripts\Portal Game\Rover\RoverPortal.cs" />
      <Compile Include="Assets\Scripts\PlayerState.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
      <Compile Include="Assets\Scripts\ExitScript.cs" />
@@ -70,7 +72,6 @@
      <Compile Include="Assets\Scripts\Portal Game\PortalControl.cs" />
      <Compile Include="Assets\Scripts\Portal Game\Rover\RoverPortalController.cs" />
      <Compile Include="Assets\Scripts\ResumeUI.cs" />
-     <Compile Include="Assets\Scripts\Portal Game\Rover\RoverPortal.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

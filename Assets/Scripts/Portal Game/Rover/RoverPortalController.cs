@@ -24,13 +24,17 @@ public class RoverPortalController : MonoBehaviour
         foreach(var portal in exitPortals)
             exitPortalColliders.Add (portal.GetComponent<BoxCollider2D>());
     }
-    
-    public void SpawnClones(string portal)
+
+    public void SpawnClones(string portal, Vector3 scale)
     {
         if (portal == "enter")
         {
+            if (GameObject.Find("Rover"))
+                return;
             var roverClone = Instantiate(clone, enterPortalSpawnPoint.position, Quaternion.identity);
-            roverClone.gameObject.name = "Rover clone";
+            roverClone.transform.localScale= new Vector3(scale.x*2, scale.y*2, scale.z);
+            if(roverClone.transform.localScale.x >= 1f)
+                roverClone.gameObject.name = "Rover";
         }
         else if (portal == "exit")
         {
@@ -38,6 +42,7 @@ public class RoverPortalController : MonoBehaviour
             foreach (var spawnPoint in exitPortalSpawnPoints)
             {
                 var roverClone = Instantiate(clone, spawnPoint.position, Quaternion.identity);
+                roverClone.transform.localScale= new Vector3(scale.x/2, scale.y/2, scale.z);
                 roverClone.gameObject.name = "Rover clone";
                 i++;
             }

@@ -37,7 +37,8 @@ public class MoveRover : MonoBehaviour
 
     public void KillRover()
     {
-        roverController.RespawnRover();
+        if(!GameObject.Find("Rover clone"))
+            roverController.RespawnRover();
         Destroy(gameObject);
     }
 }

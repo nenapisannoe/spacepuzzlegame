@@ -12,22 +12,21 @@ public class RoverPortal : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (!col.CompareTag("Rover") || GameObject.Find("Rover clone"))
+        if (!col.CompareTag("Rover"))
             return;
         enteredRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
+        Debug.Log(enteredRigidbody);
         enterVelocity = enteredRigidbody.velocity.x;
 
         if (gameObject.name == "EnterPortal")
         {
             _roverPortalController.DisableCollider("exit");
-            _roverPortalController.SpawnClones("exit");
-            //FindObjectOfType<PlayerState>().direction = PlayerState.DirectionEnum.LEFT;
+            _roverPortalController.SpawnClones("exit",col.gameObject.transform.localScale);
         }
         else if (gameObject.name == "ExitPortal")
         {
             _roverPortalController.DisableCollider("enter");
-            _roverPortalController.SpawnClones("enter");
-            //FindObjectOfType<PlayerState>().direction =  PlayerState.DirectionEnum.RIGHT;
+            _roverPortalController.SpawnClones("enter",col.gameObject.transform.localScale);
         }
     }
     
@@ -45,7 +44,6 @@ public class RoverPortal : MonoBehaviour
         {
             Destroy(col.gameObject);
             _roverPortalController.EnableColliders();
-            GameObject.Find("Rover clone").name = "Rover";
         }
     }
 }

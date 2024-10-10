@@ -70,6 +70,7 @@ public class WiresField : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) 
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log(mousePosition.x + "," + mousePosition.y + "," + mousePosition.z);
             mousePosition.z = 0;
 
             // Check if mouse is over a dot

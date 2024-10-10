@@ -117,9 +117,8 @@ public class Tile : MonoBehaviour
     this.transform.Find(NAME_CONNECTION).gameObject.SetActive(true);
     int angle = rigth ? -90 : bottom ? -180 : left ? -270 : 0;
     this.transform.Find(NAME_CONNECTION).gameObject.transform.Rotate(new Vector3(0, 0, angle));
-    
   }
-  
+
   void OnMouseUp()
   {
     if (_isPlayble && !_isSolved)
