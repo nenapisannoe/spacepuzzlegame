@@ -17,16 +17,16 @@ public class RoverPortal : MonoBehaviour
         enteredRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
         Debug.Log(enteredRigidbody);
         enterVelocity = enteredRigidbody.velocity.x;
-
+        var roverScale = col.GetComponent<MoveRover>().roverScale;
         if (gameObject.name == "EnterPortal")
         {
             _roverPortalController.DisableCollider("exit");
-            _roverPortalController.SpawnClones("exit",col.gameObject.transform.localScale);
+            _roverPortalController.SpawnClones("exit",col.gameObject.transform.localScale, roverScale);
         }
         else if (gameObject.name == "ExitPortal")
         {
             _roverPortalController.DisableCollider("enter");
-            _roverPortalController.SpawnClones("enter",col.gameObject.transform.localScale);
+            _roverPortalController.SpawnClones("enter",col.gameObject.transform.localScale,roverScale);
         }
     }
     

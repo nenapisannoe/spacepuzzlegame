@@ -16,11 +16,42 @@ public class PortalControl : MonoBehaviour
 
     [SerializeField] private GameObject clone;
     
+    [SerializeField] private bool isPortalOn;
+    [SerializeField] private int portalColor;
+    
     
     void Start()
     {
         leftPortalCollider = leftPortal.GetComponent<BoxCollider2D>();
         rightPortalCollider = rightPortal.GetComponent<BoxCollider2D>();
+        
+        if(isPortalOn)
+            EnablePortals();
+        else
+        {
+            DisablePortals();
+            Field.OnWireConnected += AcceptPortalEnable;
+        }
+    }
+
+    void AcceptPortalEnable(int color)
+    {
+        if(color == portalColor)
+            EnablePortals();
+    }
+
+    void EnablePortals()
+    {
+        EnableColliders();
+        leftPortal.GetComponent<Portal>().SwitchTransparency(false);
+        rightPortal.GetComponent<Portal>().SwitchTransparency(false);
+    }
+
+    void DisablePortals()
+    {
+        DisableColliders();
+        leftPortal.GetComponent<Portal>().SwitchTransparency(true);
+        rightPortal.GetComponent<Portal>().SwitchTransparency(true);
     }
 
     public void SpawnClone(string portal)
@@ -37,7 +68,7 @@ public class PortalControl : MonoBehaviour
         }
         
     }
-
+    
     public void DisableCollider(string colliderToDisable)
     {
         if (colliderToDisable == "left")
@@ -48,6 +79,12 @@ public class PortalControl : MonoBehaviour
         {
             rightPortalCollider.enabled = false;
         }
+    }
+
+    public void DisableColliders()
+    {
+        DisableCollider("right");
+        DisableCollider("left");
     }
 
     public void EnableColliders()

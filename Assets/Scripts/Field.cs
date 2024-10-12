@@ -13,6 +13,7 @@ public class Field : MonoBehaviour
   private List<int> _solvedConnections = new List<int>();
 
   public static Action OnWiresSolved;
+  public static Action<int> OnWireConnected;
 
   private int _dimensionX = 0;
   private int _dimensionY = 0;
@@ -126,6 +127,8 @@ public class Field : MonoBehaviour
           _connections.ForEach((tile) => tile.isSolved = true);
           _canDrawConnection = false;
           _amountToSolve.Remove(firstTile.cid);
+          OnWireConnected?.Invoke(firstTile.cid);
+          
           SetGameStatus(++_solved, _amountToSolve.Count + _solved);
           if (_amountToSolve.Keys.Count == 0)
           {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 
 public class Portal : MonoBehaviour
@@ -9,8 +10,27 @@ public class Portal : MonoBehaviour
     private float enterVelocity;
     private float exitVelocity;
 
+    [SerializeField] private SpriteRenderer rightHalf;
+    [SerializeField] private SpriteRenderer leftHalf;
+
     [SerializeField] PortalControl _portalControl;
-    
+
+
+    public void SwitchTransparency(bool isTransparent)
+    {
+        if (isTransparent)
+        {
+            Color newColor = new Color(rightHalf.color.r, rightHalf.color.g, rightHalf.color.b, 0.5f);
+            leftHalf.color = newColor;
+            rightHalf.color = newColor;
+        }
+        else
+        {
+            Color newColor = new Color(rightHalf.color.r, rightHalf.color.g, rightHalf.color.b, 1f);
+            leftHalf.color = newColor;
+            rightHalf.color = newColor;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D col)
     {

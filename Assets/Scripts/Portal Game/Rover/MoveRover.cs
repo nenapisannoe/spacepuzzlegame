@@ -9,6 +9,7 @@ public class MoveRover : MonoBehaviour
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float dirX;
     [SerializeField] RoverController roverController;
+    [SerializeField] public int roverScale = 1;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
