@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class Field : MonoBehaviour
   private Tile _connectionTile;
 
   private List<int> _solvedConnections = new List<int>();
+
+  public static Action OnWiresSolved;
 
   private int _dimensionX = 0;
   private int _dimensionY = 0;
@@ -127,6 +130,8 @@ public class Field : MonoBehaviour
           if (_amountToSolve.Keys.Count == 0)
           {
             Debug.Log("GAME COMPLETE");
+            gameObject.SetActive(false);
+            OnWiresSolved?.Invoke();
           }
         }
       }

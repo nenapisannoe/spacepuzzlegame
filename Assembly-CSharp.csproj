@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\Portal Game\MoveCharacter.cs" />
      <Compile Include="Assets\Scripts\Portal Game\Rover\RoverController.cs" />
      <Compile Include="Assets\Scripts\Portal Game\Rover\RoverPositionData.cs" />
+     <Compile Include="Assets\SlidingWall.cs" />
      <Compile Include="Assets\Scripts\Wires Game\WiresField.cs" />
      <Compile Include="Assets\Scripts\Wires Game\WiresTile.cs" />
      <Compile Include="Assets\Scripts\Portal Game\Portal.cs" />
