@@ -87,10 +87,10 @@ public class DialogueEditor : EditorWindow
             
             Debug.Log("Loaded dialogue " + dialogueData.dialogue.Count);
             
-            /*foreach (var node in dialogueData.dialogue)
+            foreach (var node in dialogueData.dialogue)
             {
                 nodes.Add(new DialogueNode { rect = new Rect(10, 10 + (110 * nodes.Count), 200, 100)});
-            }*/
+            }
 
         }
         

@@ -3,12 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveCharacter : MonoBehaviour
+public class MoveCharacter : MonoBehaviour, IControllable
 {
     private Rigidbody2D rb;
     private PlayerState _playerState;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float dirX;
+    private bool isControlled = true;
+
+    public void SetControl(bool isActive)
+    {
+        isControlled = isActive;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -16,6 +22,7 @@ public class MoveCharacter : MonoBehaviour
     }
     void Update()
     {
+        if(!isControlled) return;
         if (GameController.instance.SideWalkRuleOn)
         {
             if (_playerState.direction == PlayerState.DirectionEnum.LEFT)

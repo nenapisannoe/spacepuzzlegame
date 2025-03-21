@@ -11,7 +11,8 @@ public class GameController : MonoBehaviour
     
     public InputManager InputManager { get; private set; }
     
-    public event Action<bool> OnGamePause;
+    public event Action<bool> OnResumeOpen;
+    public event Action<bool> OnMapOpen;
     
     private bool TimeIsPaused() => Math.Abs(Time.timeScale) < float.Epsilon;
 
@@ -19,18 +20,24 @@ public class GameController : MonoBehaviour
     {
         instance = this;
         InputManager = gameObject.AddComponent<InputManager>();
+        InputManager.OpenResume += ViewResume;
+        InputManager.OpenMap += ViewMap;
     }
 
     private void Start()
     {
-        
-        InputManager.OpenResume += ViewResume;
+
     }
 
     public void ViewResume()
     {
         Time.timeScale = TimeIsPaused() ? 1 : 0;
-        OnGamePause?.Invoke(TimeIsPaused());
-        
+        OnResumeOpen?.Invoke(TimeIsPaused());
+    }
+
+    public void ViewMap()
+    {
+        Time.timeScale = TimeIsPaused() ? 1 : 0;
+        OnMapOpen?.Invoke(TimeIsPaused());
     }
 }

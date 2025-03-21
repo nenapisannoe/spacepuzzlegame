@@ -69,10 +69,12 @@ public class Tile : MonoBehaviour
     get { return this.transform.Find(NAME_MAK).gameObject.GetComponent<SpriteRenderer>(); }
   }
 
-  private bool _isSolved = false;
+  [SerializeField] private bool _isSolved = false;
   private bool _isHighlighted = false;
-  private bool _isPlayble = false;
+   [SerializeField] private bool _isPlayble = false;
   private bool _isSelected = false;
+  public bool _isPartOfConnection = false;
+
   private Color _originalColor;
   void Start()
   {
@@ -84,16 +86,15 @@ public class Tile : MonoBehaviour
       Destroy(MarkComponentRenderer.gameObject);
   }
 
-  public void ResetConnection()
-  {
-    // if (_isSolved) return;
+public void ResetConnection()
+{
     var connection = this.transform.Find(NAME_CONNECTION).gameObject;
     connection.SetActive(false);
     connection.transform.eulerAngles = Vector3.zero;
     Debug.Log("Tile -> Reset(" + _isSolved + "): " + cid);
     _isSolved = false;
-  }
-
+    _isPartOfConnection = false; // Ensure tile is marked as unconnected
+}
   public void HightlightReset()
   {
     _isHighlighted = false;
@@ -121,7 +122,7 @@ public class Tile : MonoBehaviour
 
   void OnMouseUp()
   {
-    if (_isPlayble && !_isSolved)
+    if (_isPlayble || _isPartOfConnection)
     {
       _isSelected = false;
       InvokeOnSelected();
@@ -130,7 +131,7 @@ public class Tile : MonoBehaviour
 
   void OnMouseDown()
   {
-    if (_isPlayble && !_isSolved)
+    if (_isPlayble)
     {
       _isSelected = true;
       InvokeOnSelected();

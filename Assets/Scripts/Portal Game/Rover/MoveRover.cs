@@ -10,13 +10,26 @@ public class MoveRover : MonoBehaviour
     [SerializeField] private float dirX;
     [SerializeField] RoverController roverController;
     [SerializeField] public int roverScale = 1;
+    [SerializeField] public int RoverId;// { get; set; } 
+    [SerializeField] public int ParentId;// { get; set; }
+
+    [SerializeField] private bool isOriginal = false;
+
+    [SerializeField] private bool Conveyored = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         roverController = FindObjectOfType<RoverController>();
+        if(isOriginal)
+            RoverManager.Instance.RegisterRover(this.gameObject);
+        Conveyor.OnRoverStepOnConveyor += RoverOnConveyor;
+        Conveyor.OnRoverStepOffConveyor += RoverOffConveyor;
     }
     void Update()
     {
+        if(Conveyored) return;
+        if(!RoverManager.Instance.isControlled) return;
         var movement = Input.GetAxisRaw("Horizontal");
         
         if (movement < 0)
@@ -31,6 +44,24 @@ public class MoveRover : MonoBehaviour
         dirX = movement * moveSpeed;
     }
 
+    void RoverOnConveyor(int incomingID, float newSpeed)
+    {
+        if(incomingID == RoverId)
+        {
+            Conveyored = true;
+            dirX = newSpeed;
+        }
+    }
+
+    void RoverOffConveyor(int incomingID)
+    {
+        if(incomingID == RoverId)
+        {
+            Conveyored = false;
+            dirX = moveSpeed;
+        }
+    }
+
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(dirX, 0f);
@@ -41,5 +72,9 @@ public class MoveRover : MonoBehaviour
         if(!GameObject.Find("Rover clone"))
             roverController.RespawnRover();
         Destroy(gameObject);
+    }
+    private void OnDestroy()
+    {
+        RoverManager.Instance.DeregisterRover(RoverId);
     }
 }

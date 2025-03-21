@@ -13,10 +13,17 @@ EditorBuildSettings:
     guid: b360071fbca62014587c162bcbd4b94b
   - enabled: 1
     path: "Assets/Scenes/\u041F\u0440\u043E\u0435\u043A\u0442 \u042F \u043D\u0438\u0447\u0435\u0433\u043E
-      \u043D\u0435 \u0443\u0441\u043F\u0435\u043B\u0430/Scene 1.unity"
-    guid: 5120e5a91f7e33145a0a5a76abb45640
-  - enabled: 1
-    path: "Assets/Scenes/\u041F\u0440\u043E\u0435\u043A\u0442 \u042F \u043D\u0438\u0447\u0435\u0433\u043E
       \u043D\u0435 \u0443\u0441\u043F\u0435\u043B\u0430/Scene 2.unity"
     guid: 4f47872297724104c824d1d76df857ef
+  - enabled: 1
+    path: "Assets/Scenes/\u041F\u0440\u043E\u0435\u043A\u0442 \u042F \u043D\u0438\u0447\u0435\u0433\u043E
+      \u043D\u0435 \u0443\u0441\u043F\u0435\u043B\u0430/Scene 5.unity"
+    guid: d19f118a87537f843b934374c0e42bbe
+  - enabled: 1
+    path: "Assets/Scenes/\u041F\u0440\u043E\u0435\u043A\u0442 \u042F \u043D\u0438\u0447\u0435\u0433\u043E
+      \u043D\u0435 \u0443\u0441\u043F\u0435\u043B\u0430/Scene 6.unity"
+    guid: 9fff71d62dbe24b4eb9095c0b1c16f50
+  - enabled: 1
+    path: Assets/Scenes/Ship Garage.unity
+    guid: c9795e858e6d35e47bb2a1ce5288832f
   m_configObjects: {}

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Field : MonoBehaviour
 {
+
+  [SerializeField] int ActiateObjectID;
   private Tile[,] _grid;
   private bool _canDrawConnection = false;
 
@@ -12,19 +15,23 @@ public class Field : MonoBehaviour
 
   private List<int> _solvedConnections = new List<int>();
 
-  public static Action OnWiresSolved;
+  public static Action<int> OnWiresSolved;
   public static Action<int> OnWireConnected;
+
 
   private int _dimensionX = 0;
   private int _dimensionY = 0;
   private int _solved = 0;
   private Dictionary<int, int> _amountToSolve = new Dictionary<int, int>();
 
+  private Dictionary<int, List<Tile>> connections = new Dictionary<int, List<Tile>>();
+
   void Start()
   {
     _dimensionX = transform.childCount;
     _dimensionY = transform.GetChild(0).transform.childCount;
-    _grid = new Tile[_dimensionX, _dimensionY];
+    _grid = new Tile[_dimensionY, _dimensionX];
+
     for (int y = 0; y < _dimensionX; y++)
     {
       var row = transform.GetChild(y).transform;
@@ -84,13 +91,20 @@ public class Field : MonoBehaviour
     if (_canDrawConnection)
     {
       _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      _mouseGridX = (int)Mathf.Floor(_mouseWorldPosition.x);
-      _mouseGridY = (int)Mathf.Floor(_mouseWorldPosition.y);
+      _mouseGridX = (int)(Mathf.Floor(_mouseWorldPosition.x) - transform.position.x);
+      _mouseGridY = (int)(Mathf.Floor(_mouseWorldPosition.y) - transform.position.y);
+
+      Debug.Log($"Mouse Grid Y: {_dimensionX}, Dimension Y: {_dimensionY}");
 
       if (_CheckMouseOutsideGrid()) return;
 
       Tile hoverTile = _grid[_mouseGridX, _mouseGridY];
       Tile firstTile = _connections[0];
+      /*if (hoverTile._isPartOfConnection)
+      {
+          Debug.Log("Field -> OnMouseDrag: Erasing intersected connection");
+          _EraseConnection(hoverTile);
+      }*/
       bool isDifferentActiveTile = hoverTile.cid > 0 && hoverTile.cid != firstTile.cid;
 
       if (hoverTile.isHighlighted || hoverTile.isSolved || isDifferentActiveTile) return;
@@ -118,9 +132,12 @@ public class Field : MonoBehaviour
           _mouseGridY < connectionTilePosition.y,
           _mouseGridX < connectionTilePosition.x
         );
+        
+
 
         _connectionTile = hoverTile;
         _connections.Add(_connectionTile);
+        _connectionTile._isPartOfConnection = true;
 
         if (_CheckIfTilesMatch(hoverTile, firstTile))
         {
@@ -129,12 +146,11 @@ public class Field : MonoBehaviour
           _amountToSolve.Remove(firstTile.cid);
           OnWireConnected?.Invoke(firstTile.cid);
           
-          SetGameStatus(++_solved, _amountToSolve.Count + _solved);
           if (_amountToSolve.Keys.Count == 0)
           {
             Debug.Log("GAME COMPLETE");
             gameObject.SetActive(false);
-            OnWiresSolved?.Invoke();
+            OnWiresSolved?.Invoke(ActiateObjectID);
           }
         }
       }
@@ -148,31 +164,62 @@ public class Field : MonoBehaviour
 
   bool _CheckMouseOutsideGrid()
   {
-    return _mouseGridY >= _dimensionY || _mouseGridY < 0 || _mouseGridX >= _dimensionX || _mouseGridX < 0;
+    Debug.Log("_mouseGridY >= _dimensionY || _mouseGridY < 0 || _mouseGridX >= _dimensionX || _mouseGridX < 0");
+    Debug.Log($"{_mouseGridY} >= {_dimensionY} || {_mouseGridY} < 0 || {_mouseGridX} >= {_dimensionX} || {_mouseGridX} < 0;");
+    return _mouseGridY >= _dimensionX || _mouseGridY < 0 || _mouseGridX >= _dimensionY || _mouseGridX < 0;
   }
 
+  void _EraseConnection(Tile tile)
+{
+    if (_connections.Contains(tile))
+    {
+        foreach (Tile t in _connections)
+        {
+            t.ResetConnection();
+            t._isPartOfConnection = false;
+            t.HightlightReset();
+        }
+        _connections.Clear();
+    }
+}
+
+
   void onTileSelected(Tile tile)
-  {
+{
     Debug.Log("Field -> onTileSelected(" + tile.isSelected + "): " + _FindTileCoordinates(tile));
+
+    if (tile._isPartOfConnection)
+    {
+        Debug.Log("Field -> onTileSelected: Erasing connection");
+        _EraseConnection(tile);
+        return;
+    }
+
     if (tile.isSelected)
     {
-      _connectionTile = tile;
-      _connections = new List<Tile>();
-      _connections.Add(_connectionTile);
-      _canDrawConnection = true;
-      _connectionTile.Highlight();
+        _connectionTile = tile;
+        _connections = new List<Tile>();
+        _connections.Add(_connectionTile);
+        _canDrawConnection = true;
+        _connectionTile.Highlight();
     }
     else
     {
-      bool isFirstTileInConnection = _connectionTile == tile;
-      if (isFirstTileInConnection) tile.HightlightReset();
-      else if (!_CheckIfTilesMatch(_connectionTile, tile))
-      {
-        _ResetConnections();
-      }
-      _canDrawConnection = false;
+        bool isFirstTileInConnection = _connectionTile == tile;
+        if (isFirstTileInConnection)
+        {
+            tile.HightlightReset();
+        }
+        else if (!_CheckIfTilesMatch(_connectionTile, tile))
+        {
+            _ResetConnections();
+        }
+        _canDrawConnection = false;
     }
-  }
+
+    Debug.Log($"[onTileSelected] _connectionTile set to: {_FindTileCoordinates(_connectionTile)}");
+}
+
 
   public void onRestart()
   {
@@ -190,27 +237,24 @@ public class Field : MonoBehaviour
       }
     }
     _solved = 0;
-    SetGameStatus(_solved, _amountToSolve.Count);
   }
 
-  void SetGameStatus(int solved, int from)
-  {
-    //GameObject.Find("txtStatus").GetComponent<UnityEngine.UI.Text>().text = "Solve: " + solved + " from " + from;
-  }
 
-  void _ResetConnections()
-  {
-    Debug.Log("Field -> _ResetConnections: _connections.Count = " + _connections.Count);
-    _connections.ForEach((tile) =>
+
+void _ResetConnections()
+{
+    Debug.Log("Field -> _ResetConnections: Clearing connections");
+    foreach (Tile tile in _connections)
     {
-      tile.ResetConnection();
-      tile.HightlightReset();
-    });
-  }
+        tile.ResetConnection();
+        tile._isPartOfConnection = false;
+        tile.HightlightReset();
+    }
+    _connections.Clear();
+}
 
   Vector2 _FindTileCoordinates(Tile tile)
   {
-    // Debug.Log("Field -> _FindTileCoordinates: " + tile.gameObject.name + " | " + tile.gameObject.transform.parent.gameObject.name);
     int x = int.Parse(tile.gameObject.name);
     int y = int.Parse(tile.gameObject.transform.parent.gameObject.name);
     return new Vector2(x, y);

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Rover
+  - Conveyor
+  - Button
+  - Light
   layers:
   - Default
   - TransparentFX

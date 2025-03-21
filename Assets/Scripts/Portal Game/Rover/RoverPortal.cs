@@ -4,46 +4,41 @@ using UnityEngine;
 
 public class RoverPortal : MonoBehaviour
 {
-    private Rigidbody2D enteredRigidbody;
-    private float enterVelocity;
-    private float exitVelocity;
+    [SerializeField] private RoverPortalController portalController;
 
-    [SerializeField] RoverPortalController _roverPortalController;
-    
+    private void Start()
+    {
+        portalController = GetComponentInParent<RoverPortalController>();
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.CompareTag("Rover"))
             return;
-        enteredRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
-        Debug.Log(enteredRigidbody);
-        enterVelocity = enteredRigidbody.velocity.x;
-        var roverScale = col.GetComponent<MoveRover>().roverScale;
+
+        var rover = col.GetComponent<MoveRover>();
+
         if (gameObject.name == "EnterPortal")
         {
-            _roverPortalController.DisableCollider("exit");
-            _roverPortalController.SpawnClones("exit",col.gameObject.transform.localScale, roverScale);
+            portalController.SpawnClonesAtExit(col.transform.localScale, rover.roverScale, rover.ParentId);
+            RoverManager.Instance.DeregisterRover(rover.RoverId);
+            Destroy(col.gameObject);
         }
         else if (gameObject.name == "ExitPortal")
         {
-            _roverPortalController.DisableCollider("enter");
-            _roverPortalController.SpawnClones("enter",col.gameObject.transform.localScale,roverScale);
+            portalController.CloneEnteredExitPortal(col.gameObject);
         }
     }
-    
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (!col.CompareTag("Rover"))
-            return;
-        exitVelocity = enteredRigidbody.velocity.x;
 
-        if (enterVelocity != exitVelocity)
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!other.CompareTag("Rover"))
+            return;
+
+        if (gameObject.name == "ExitPortal")
         {
-            Destroy(GameObject.Find("Rover clone"));
-        }
-        else if (gameObject.name != "Rover clone")
-        {
-            Destroy(col.gameObject);
-            _roverPortalController.EnableColliders();
+            portalController.CloneExitedExitPortal(other.gameObject);
         }
     }
 }
+

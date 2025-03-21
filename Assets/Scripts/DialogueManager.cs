@@ -33,7 +33,6 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         npcDialogue = JsonUtility.FromJson<NPCDialogue>(jsonFile.text);
-        Debug.Log(npcDialogue.npcName);
         currentNodeId = 0; 
     }
 }
