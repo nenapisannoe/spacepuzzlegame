@@ -19,6 +19,10 @@ public class RoverPortalController : MonoBehaviour
     private HashSet<GameObject> clonesAtExit = new HashSet<GameObject>(); 
     private bool isRecombining = false;
 
+    [SerializeField] private int portalColor;
+
+    [SerializeField] private bool isPortalOn;
+
     public Action OnClonesRecombined;
 
     private void Start()
@@ -28,14 +32,57 @@ public class RoverPortalController : MonoBehaviour
         {
             exitPortalColliders.Add(portal.GetComponent<Collider2D>());
         }
+        if(isPortalOn)
+            EnablePortals();
+        else
+        {
+            DisablePortals();
+            Field.OnWireConnected += AcceptPortalEnable;
+        }
     }
+
+    void AcceptPortalEnable(int color)
+    {
+        if(color == portalColor)
+            EnablePortals();
+    }
+
+    void EnablePortals()
+    {
+        enterPortal.GetComponent<RoverPortal>().SwitchTransparency(false);
+        enterPortalCollider.enabled = true;
+        foreach(var exitPortal in exitPortals)
+        {
+            exitPortal.GetComponent<RoverPortal>().SwitchTransparency(false);
+        }
+        foreach(var exitPortalCollider in exitPortalColliders)
+        {
+            exitPortalCollider.enabled = true;
+        }
+    }
+
+    void DisablePortals()
+    {
+        enterPortal.GetComponent<RoverPortal>().SwitchTransparency(true);
+        enterPortalCollider.enabled = false;
+        foreach(var exitPortal in exitPortals)
+        {
+            exitPortal.GetComponent<RoverPortal>().SwitchTransparency(true);
+        }
+        foreach(var exitPortalCollider in exitPortalColliders)
+        {
+            exitPortalCollider.enabled = false;
+        }
+    }
+
+
 
     public void SpawnClonesAtExit(Vector3 scale, int roverScale, int parentId)
     {
         foreach (var spawnPoint in exitPortalSpawnPoints)
         {
             var clone = Instantiate(roverPrefab, spawnPoint.position, Quaternion.identity);
-            clone.transform.localScale = scale / 2;
+            clone.transform.localScale = scale / exitPortals.Count;
             clone.GetComponent<MoveRover>().roverScale = roverScale + 1;
 
             int cloneId = RoverManager.Instance.RegisterRover(clone, parentId);

@@ -7,18 +7,18 @@ public enum QuestStatus {
     Completed
 }
 
-public enum ObjectiveType {
+public class QuestManager : MonoBehaviour {
+
+    public enum ObjectiveType {
     InteractWithObject,
     InteractWithNPC,
     CompletePuzzle
-}
-
-public class QuestManager : MonoBehaviour {
+    }
+    
+    [SerializeField] public Quest currentQuest;
+    public QuestStep currentQuestStep;
     public List<Quest> activeQuests = new List<Quest>();
-
-    public string QuestName = "";
-    public string QuestDescription = "";
-    public string QuestStep = "";
+    int currentQuestStepInd = 0;
 
     public static QuestManager instance;
     private void Awake() {
@@ -36,6 +36,7 @@ public class QuestManager : MonoBehaviour {
         QuestEvents.OnObjectInteracted += HandleObjectInteraction;
         QuestEvents.OnNPCInteracted += HandleNPCInteraction;
         QuestEvents.OnPuzzleCompleted += HandlePuzzleCompletion;
+        //QuestEvents.OnQuestStepUpdated += QuestStepFinished;
     }
 
 
@@ -44,40 +45,85 @@ public class QuestManager : MonoBehaviour {
         QuestEvents.OnObjectInteracted -= HandleObjectInteraction;
         QuestEvents.OnNPCInteracted -= HandleNPCInteraction;
         QuestEvents.OnPuzzleCompleted -= HandlePuzzleCompletion;
+        //QuestEvents.OnQuestStepUpdated -= QuestStepFinished;
+    }
+
+    public void AcceptQuest(Quest newQuest)
+    {   
+        currentQuest = newQuest;
+        currentQuestStep = currentQuest.steps[0];
+        QuestEvents.OnQuestDescriptionUpdated?.Invoke(currentQuest.Title);
+        QuestEvents.OnQuestStepUpdated?.Invoke(currentQuestStep.stepDescription);
+    }
+
+    public void QuestStepFinished()
+    {
+        currentQuestStepInd++;
+        if(currentQuestStepInd <= currentQuest.steps.Count-1)
+        {
+            currentQuestStep = currentQuest.steps[currentQuestStepInd];
+            QuestEvents.OnQuestDescriptionUpdated?.Invoke(currentQuestStep.stepDescription);
+        }
+        else
+            FinishQuest();
+    }
+
+    public void FinishQuest()
+    {
+        Debug.Log($"Отношения до: Рабочие {FactionManager.Instance.GetFactionRelationship(FactionType.Workers)}, Контрабандисты {FactionManager.Instance.GetFactionRelationship(FactionType.Smugglers)}, СБ {FactionManager.Instance.GetFactionRelationship(FactionType.Security)}");
+        foreach (var impact in currentQuest.factionImpacts)
+        {
+            FactionManager.Instance.UpdateRelationship(impact.faction, impact.relationshipChange);
+        }
+        Debug.Log($"Отношения после: Рабочие {FactionManager.Instance.GetFactionRelationship(FactionType.Workers)}, Контрабандисты {FactionManager.Instance.GetFactionRelationship(FactionType.Smugglers)}, СБ {FactionManager.Instance.GetFactionRelationship(FactionType.Security)}");
+
+        currentQuest = null;
     }
 
     public void AddQuest(Quest quest) {
-        activeQuests.Add(quest);
+        /*activeQuests.Add(quest);
         quest.ActivateQuest();
 
         QuestEvents.OnQuestNameUpdated?.Invoke(quest.Title);
         QuestEvents.OnQuestDescriptionUpdated?.Invoke(quest.Description);
-        QuestEvents.OnQuestStepUpdated?.Invoke(quest.Objectives[0].Description);
+        QuestEvents.OnQuestStepUpdated?.Invoke(quest.Objectives[0].Description);*/
     }
 
     private void HandleObjectInteraction(string targetID) {
-        UpdateQuestProgress(ObjectiveType.InteractWithObject, targetID);
+        if(currentQuestStep.stepGoal == ObjectiveType.InteractWithObject)
+        {
+            if(targetID == currentQuestStep.objectiveID)
+                QuestStepFinished();
+        }
     }
 
     private void HandleNPCInteraction(string npcID) {
-        UpdateQuestProgress(ObjectiveType.InteractWithNPC, npcID);
+        if(currentQuestStep.stepGoal == ObjectiveType.InteractWithNPC)
+        {
+            if(npcID == currentQuestStep.objectiveID)
+                QuestStepFinished();
+        }
     }
 
     private void HandlePuzzleCompletion(string puzzleID) {
-        UpdateQuestProgress(ObjectiveType.CompletePuzzle, puzzleID);
+    if(currentQuestStep.stepGoal == ObjectiveType.CompletePuzzle)
+        {
+            if(puzzleID == currentQuestStep.objectiveID)
+                QuestStepFinished();
+        }
     }
 
     private void UpdateQuestProgress(ObjectiveType type, string targetID) {
-        foreach (var quest in activeQuests) {
+      /*  foreach (var quest in activeQuests) {
             if (quest.Status == QuestStatus.Active) {
                 quest.CompleteObjective(targetID);
             }
-        }
+        }*/
     }
 
     void Start() {
 
-    QuestManager questManager = FindObjectOfType<QuestManager>();
+    /*QuestManager questManager = FindObjectOfType<QuestManager>();
 
     Quest quest1 = new Quest(
         questID: "quest001",
@@ -105,7 +151,7 @@ public class QuestManager : MonoBehaviour {
     );
 
     questManager.AddQuest(quest1);
-    questManager.AddQuest(quest2);
+    questManager.AddQuest(quest2);*/
 }
 
 }

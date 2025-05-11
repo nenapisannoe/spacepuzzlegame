@@ -13,20 +13,24 @@ public class GameController : MonoBehaviour
     
     public event Action<bool> OnResumeOpen;
     public event Action<bool> OnMapOpen;
+    [SerializeField] GameObject pointer;
     
     private bool TimeIsPaused() => Math.Abs(Time.timeScale) < float.Epsilon;
 
-    protected void Awake()
+    void Awake()
     {
-        instance = this;
+        if (instance == null) {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else if (instance != this) {
+            Destroy(gameObject);
+        }
+
         InputManager = gameObject.AddComponent<InputManager>();
         InputManager.OpenResume += ViewResume;
         InputManager.OpenMap += ViewMap;
-    }
-
-    private void Start()
-    {
-
+        DialogueUI.Instance.OpenDialogue += PauseTime;
+        DialogueUI.Instance.CloseDialogue += ResumeTime;
     }
 
     public void ViewResume()
@@ -39,5 +43,15 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = TimeIsPaused() ? 1 : 0;
         OnMapOpen?.Invoke(TimeIsPaused());
+    }
+
+    void PauseTime()
+    {
+        Time.timeScale = 0;
+    }
+
+    void ResumeTime()
+    {
+        Time.timeScale = 1;
     }
 }

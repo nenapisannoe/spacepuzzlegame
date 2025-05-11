@@ -59,20 +59,23 @@
     <UnityVersion>2020.3.33f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Users\darka\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Users\darka\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.1.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ColorBasedActivatableObject.cs" />
     <Compile Include="Assets\Scripts\PuzzleExit.cs" />
     <Compile Include="Assets\Scripts\InputManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\GameController.cs" />
-    <Compile Include="Assets\Scripts\Quest.cs" />
+    <Compile Include="Assets\Scripts\QuestOld.cs" />
     <Compile Include="Assets\Scripts\QuestInteractable.cs" />
+    <Compile Include="Assets\PickableItem.cs" />
     <Compile Include="Assets\Scripts\Faction.cs" />
     <Compile Include="Assets\Scripts\Portal Game\Rover\MoveRover.cs" />
     <Compile Include="Assets\Scripts\DialogueManager.cs" />
     <Compile Include="Assets\Scripts\Door.cs" />
     <Compile Include="Assets\Scripts\Interactable.cs" />
+    <Compile Include="Assets\DialogueUI.cs" />
     <Compile Include="Assets\StartWires.cs" />
     <Compile Include="Assets\Scripts\QuestObjective.cs" />
     <Compile Include="Assets\ColorBasedActivatorObject.cs" />
@@ -93,6 +96,9 @@
     <Compile Include="Assets\Scripts\QuestEvents.cs" />
     <Compile Include="Assets\Scripts\Wires Game\WiresField.cs" />
     <Compile Include="Assets\Scripts\Wires Game\WiresTile.cs" />
+    <Compile Include="Assets\Scripts\QuestGiver.cs" />
+    <Compile Include="Assets\Scripts\DialogueData.cs" />
+    <Compile Include="Assets\Scripts\Quest.cs" />
     <Compile Include="Assets\Scripts\Portal Game\Portal.cs" />
     <Compile Include="Assets\Conveyor.cs" />
     <Compile Include="Assets\Scripts\Portal Game\PortalControl.cs" />
@@ -100,6 +106,7 @@
     <Compile Include="Assets\Scripts\Portal Game\Rover\RoverPortalController.cs" />
     <Compile Include="Assets\Scripts\ResumeUI.cs" />
     <Compile Include="Assets\ActivatableLight.cs" />
+    <Compile Include="Assets\Scripts\ShipZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

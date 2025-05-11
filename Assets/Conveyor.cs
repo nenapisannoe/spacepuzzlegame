@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Conveyor : MonoBehaviour
+public class Conveyor : ColorBasedActivatableObject
 {
     public static Action<int, float> OnRoverStepOnConveyor;
     public static Action<int> OnRoverStepOffConveyor;
-    [SerializeField] int ActivatableObjectID;
     [SerializeField] public Vector2 moveDirection = new Vector2(1, 0); 
     [SerializeField] public float moveSpeed = 5f;
     [SerializeField] bool isDeactivated;
@@ -17,9 +17,9 @@ public class Conveyor : MonoBehaviour
     {
         Field.OnWiresSolved += ActivateConveyor;
     }
-    void ActivateConveyor(int incomingID)
+    void ActivateConveyor(ButtonColorType incomingColor)
     {
-        if(incomingID == ActivatableObjectID)
+        if(ActivatableObjectColor == incomingColor)
             isDeactivated = false;
     }
 
@@ -27,6 +27,11 @@ public class Conveyor : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(isDeactivated) return;
+        if(moveDirection.x < 0) 
+        {   
+            Debug.Log("hello");
+            collision.gameObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
         if (collision.CompareTag("Rover"))
         {
             OnRoverStepOnConveyor?.Invoke(collision.GetComponent<MoveRover>().RoverId, moveSpeed * moveDirection.x);

@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Field : MonoBehaviour
 {
 
-  [SerializeField] int ActiateObjectID;
+  [SerializeField] ButtonColorType ActiateObjectColor;
   private Tile[,] _grid;
   private bool _canDrawConnection = false;
 
@@ -15,7 +16,7 @@ public class Field : MonoBehaviour
 
   private List<int> _solvedConnections = new List<int>();
 
-  public static Action<int> OnWiresSolved;
+  public static Action<ButtonColorType> OnWiresSolved;
   public static Action<int> OnWireConnected;
 
 
@@ -150,7 +151,7 @@ public class Field : MonoBehaviour
           {
             Debug.Log("GAME COMPLETE");
             gameObject.SetActive(false);
-            OnWiresSolved?.Invoke(ActiateObjectID);
+            OnWiresSolved?.Invoke(ActiateObjectColor);
           }
         }
       }

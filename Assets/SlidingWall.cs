@@ -3,22 +3,17 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
-public class SlidingWall : MonoBehaviour
+public class SlidingWall : ColorBasedActivatableObject
 {
-    [SerializeField] int ActivatableObjectID;
-    public enum WallActivator { Field, Buttons }
     public float shrinkDuration = 1f;
     private Vector3 originalScale;
     private Vector3 targetScale;
     private Vector3 originalPosition;
     [SerializeField] private Vector3 targetPosition;
     [SerializeField] private float positionOffset = 4f;
-    [SerializeField] public WallActivator wallActivator;
     
     bool wallDown = false;
     private float elapsedTime = 0f;
-
-    [SerializeField] private List<ActivatableLight> lights = new List<ActivatableLight>();
 
     /*List<Transform> FindChildrenWithTag(GameObject parent, string tag)
     {
@@ -45,9 +40,9 @@ public class SlidingWall : MonoBehaviour
         targetPosition = new Vector3(originalPosition.x, originalPosition.y - positionOffset, originalPosition.z);
 
         //lights = FindChildrenWithTag(gameObject, "Light");
-        if(wallActivator == WallActivator.Field)
+        if(objectActivator == ObjectActivator.Field)
             Field.OnWiresSolved += ActivateWall;
-        else if(wallActivator == WallActivator.Buttons)
+        else if(objectActivator == ObjectActivator.Buttons)
             ActivatableLight.OnLightActivated += CheckLights;
             
     }
@@ -63,9 +58,9 @@ public class SlidingWall : MonoBehaviour
         if(allLightsActivated)
             SlideWall();
     }
-    void ActivateWall(int fieldID)
+    void ActivateWall(ButtonColorType fieldID)
     {
-        if(fieldID == ActivatableObjectID)
+        if(fieldID == ActivatableObjectColor)
             SlideWall();
     }
 

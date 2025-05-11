@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestObjective {
-    public ObjectiveType Type { get; set; }
+   /* public ObjectiveType Type { get; set; }
     public string TargetID { get; set; }  
     public bool IsCompleted { get; set; }
     public string Description { get; set; }
@@ -17,6 +17,6 @@ public class QuestObjective {
 
     public void CompleteObjective() {
         IsCompleted = true;
-    }
+    }*/
 }
 

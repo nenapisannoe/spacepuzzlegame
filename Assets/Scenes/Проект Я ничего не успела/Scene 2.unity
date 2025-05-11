@@ -331,7 +331,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &299678433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1214,7 +1214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6210313101930927570, guid: 692bec1071718ef41a5b38eaf9869101, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.37
+      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 6210313101930927570, guid: 692bec1071718ef41a5b38eaf9869101, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1359,11 +1359,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 173bdde8ee68f164c85e69495ab82bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectActivator: 0
+  ActivatableObjectColor: 0
+  lights: []
   shrinkDuration: 1
   targetPosition: {x: 0, y: 0, z: 0}
   positionOffset: 0.65
-  wallActivator: 0
-  lights: []
 --- !u!61 &2100249401
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1448,6 +1449,10 @@ PrefabInstance:
     - target: {fileID: 1390657217985068347, guid: a4d3545d1d3accb47a1b4c58f2c39bf8, type: 3}
       propertyPath: m_Name
       value: PortalControl
+      objectReference: {fileID: 0}
+    - target: {fileID: 1390657218108036597, guid: a4d3545d1d3accb47a1b4c58f2c39bf8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: 1390657218185652807, guid: a4d3545d1d3accb47a1b4c58f2c39bf8, type: 3}
       propertyPath: leftHalf
@@ -1633,6 +1638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SideWalkRuleOn: 0
+  pointer: {fileID: 0}
 --- !u!1 &3013602813174159965
 GameObject:
   m_ObjectHideFlags: 0

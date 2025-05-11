@@ -8,6 +8,8 @@ TagManager:
   - Conveyor
   - Button
   - Light
+  - Row
+  - Room
   layers:
   - Default
   - TransparentFX

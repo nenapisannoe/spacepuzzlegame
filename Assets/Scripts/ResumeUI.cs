@@ -11,6 +11,7 @@ public class ResumeUI : MonoBehaviour
     [SerializeField] TMP_Text questStep;
 
     [SerializeField] GameObject Resume;
+    [SerializeField] GameObject mapPrefab;
 
     static ResumeUI instance;
 
@@ -32,9 +33,19 @@ public class ResumeUI : MonoBehaviour
         GameController.instance.OnResumeOpen += Switch;
         QuestEvents.OnQuestNameUpdated += SetQuestName;
         QuestEvents.OnQuestDescriptionUpdated += SetQuestDescription;
-        QuestEvents.OnQuestStepUpdated += SetQuestStep;
+        //QuestEvents.OnQuestStepUpdated += SetQuestStep;
+        
+        if (FindObjectOfType<MapUI>() == null)
+        {
+            Instantiate(mapPrefab, this.transform);
+        }   
         
         Switch(false);
+    }
+
+    void Start()
+    {
+
     }
 
     private void Switch(bool val)

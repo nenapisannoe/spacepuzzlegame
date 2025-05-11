@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ButtonColorType { Green, Magenta }
+public enum ButtonColorType { Green, Magenta, Multiple }
 public class ActivatableObject : MonoBehaviour
 {
     public ButtonColorType objectColor; 

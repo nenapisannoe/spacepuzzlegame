@@ -5,10 +5,29 @@ using UnityEngine;
 public class RoverPortal : MonoBehaviour
 {
     [SerializeField] private RoverPortalController portalController;
+    
+    [SerializeField] private SpriteRenderer rightHalf;
+    [SerializeField] private SpriteRenderer leftHalf;
 
     private void Start()
     {
         portalController = GetComponentInParent<RoverPortalController>();
+    }
+
+    public void SwitchTransparency(bool isTransparent)
+    {
+        if (isTransparent)
+        {
+            Color newColor = new Color(rightHalf.color.r, rightHalf.color.g, rightHalf.color.b, 0.5f);
+            leftHalf.color = newColor;
+            rightHalf.color = newColor;
+        }
+        else
+        {
+            Color newColor = new Color(rightHalf.color.r, rightHalf.color.g, rightHalf.color.b, 1f);
+            leftHalf.color = newColor;
+            rightHalf.color = newColor;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
