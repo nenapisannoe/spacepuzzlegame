@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class MapUI : MonoBehaviour
 {
-    private ShipZone[,] Rooms;
+    private ShipZone[,] Zones;
 
     [SerializeField] private GameObject Map;
-    private (int,int) markedRoom = (-1,-1);
+    private (int,int) markedZone = (-1,-1);
 
     private int _dimensionX = 3;
     private int _dimensionY = 3;
@@ -33,17 +33,32 @@ public class MapUI : MonoBehaviour
         Switch(false);
     }
 
+    public int GetCurrentZoneX()
+    {
+        return markedZone.Item1;
+    }
+
+    public int GetCurrentZoneY()
+    {
+        return markedZone.Item2;
+    }
+
+    public ShipZone GetCurrentZone()
+    {
+        return Zones[GetCurrentZoneX(),GetCurrentZoneY()];
+    }
+
     public void MarkOnMap(int x, int y)
     {
-        if(markedRoom != (-1,-1))
-            Rooms[markedRoom.Item1, markedRoom.Item2].RemoveMark();
-        markedRoom = (x,y);
-        Rooms[markedRoom.Item1, markedRoom.Item2].AddMark();
+        if(markedZone != (-1,-1))
+            Zones[markedZone.Item1, markedZone.Item2].RemoveMark();
+        markedZone = (x,y);
+        Zones[markedZone.Item1, markedZone.Item2].AddMark();
     }
 
     void OnEnable()
     {
-        foreach (ShipZone zone in Rooms)
+        foreach (ShipZone zone in Zones)
         {
             if(zone.relationshipWithFactionRequired <= FactionManager.Instance.GetFactionRelationship(zone.HostFaction))
                 zone.Unlock();
@@ -51,7 +66,7 @@ public class MapUI : MonoBehaviour
     }
     void InitializeMap()
     { 
-        Rooms = new ShipZone[_dimensionX, _dimensionY];
+        Zones = new ShipZone[_dimensionX, _dimensionY];
         for (int y = 0; y < _dimensionX; y++)
         {
             if(transform.GetChild(y).CompareTag("Row"))
@@ -62,8 +77,8 @@ public class MapUI : MonoBehaviour
                     if(row.GetChild(x).CompareTag("Room"))
                     {
                         var room = row.GetChild(x).gameObject;
-                        Rooms[x,y] = room.GetComponent<ShipZone>();
-                        Rooms[x,y].SetZoneCoordinates(x,y);
+                        Zones[x,y] = room.GetComponent<ShipZone>();
+                        Zones[x,y].SetZoneCoordinates(x,y);
                     }
                 }
             }

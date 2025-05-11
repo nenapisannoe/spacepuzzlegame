@@ -9,9 +9,10 @@ public class MoveRover : MonoBehaviour
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float dirX;
     [SerializeField] RoverController roverController;
-    [SerializeField] public int roverScale = 1;
-    [SerializeField] public int RoverId;// { get; set; } 
-    [SerializeField] public int ParentId;// { get; set; }
+    [SerializeField] public int RoverId;
+    [SerializeField] public int ParentId;
+
+    public int halves;
 
     [SerializeField] private bool isOriginal = false;
 

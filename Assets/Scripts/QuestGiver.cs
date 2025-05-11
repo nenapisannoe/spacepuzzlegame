@@ -10,7 +10,7 @@ public class QuestGiver : NPC
     {
         if(QuestManager.instance.currentQuest == null)
         {
-            DialogueUI.Instance.GiveQuest(dialogueData.dialogueLines[0], AcceptQuest, RejectQuest);
+            DialogueUI.Instance.ShowDialogue(dialogueData, AcceptQuest, RejectQuest);
         }
     }
 

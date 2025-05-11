@@ -878,7 +878,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 453643296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.231, y: -0.174, z: 0}
+  m_LocalPosition: {x: -0.623, y: -0.174, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1188622856}
@@ -915,8 +915,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 602583641}
+  leftHalf: {fileID: 1985150094}
 --- !u!61 &465685611
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1325,7 +1325,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.29, y: 0.19741753}
+  m_Offset: {x: -0.29, y: -0.04}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1351,8 +1351,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 1855184114}
+  leftHalf: {fileID: 1553824532}
 --- !u!4 &794250966
 Transform:
   m_ObjectHideFlags: 0
@@ -1361,7 +1361,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 794250963}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16000009, y: 0.63699996, z: 3.4210286}
+  m_LocalPosition: {x: 3.699, y: 0.63699996, z: 3.4210286}
   m_LocalScale: {x: 1, y: 0.64989, z: 1}
   m_Children:
   - {fileID: 1553824531}
@@ -1651,8 +1651,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 447512606}
+  leftHalf: {fileID: 1427287599}
 --- !u!61 &1117148009
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1741,8 +1741,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 248160497}
+  leftHalf: {fileID: 1609293655}
 --- !u!4 &1165435122
 Transform:
   m_ObjectHideFlags: 0
@@ -1810,8 +1810,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 1514684794}
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 248508380}
+  leftHalf: {fileID: 226319595}
 --- !u!61 &1188622858
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2239,7 +2239,7 @@ MonoBehaviour:
   - {fileID: 1117148009}
   roverPrefab: {fileID: 7848681505767385831, guid: c24dc1b8de8874c4994b6d0cc86f63bc, type: 3}
   portalColor: 0
-  isPortalOn: 0
+  isPortalOn: 1
 --- !u!1 &1553824530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2649,7 +2649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666389848}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16, y: -0.98, z: 3.4210286}
+  m_LocalPosition: {x: 3.6990004, y: -0.98, z: 3.4210286}
   m_LocalScale: {x: 1, y: 0.64989, z: 1}
   m_Children:
   - {fileID: 619266736}
@@ -2672,8 +2672,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 1461594775}
+  leftHalf: {fileID: 619266737}
 --- !u!61 &1666389851
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2687,7 +2687,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.29, y: 0.19741753}
+  m_Offset: {x: -0.29, y: -0.04}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -3413,7 +3413,7 @@ MonoBehaviour:
   - {fileID: 1666389851}
   roverPrefab: {fileID: 7848681505767385831, guid: c24dc1b8de8874c4994b6d0cc86f63bc, type: 3}
   portalColor: 0
-  isPortalOn: 0
+  isPortalOn: 1
 --- !u!4 &237548820781046138
 Transform:
   m_ObjectHideFlags: 0

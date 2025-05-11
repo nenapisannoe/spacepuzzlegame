@@ -39,7 +39,7 @@ public class RoverPortal : MonoBehaviour
 
         if (gameObject.name == "EnterPortal")
         {
-            portalController.SpawnClonesAtExit(col.transform.localScale, rover.roverScale, rover.ParentId);
+            portalController.SpawnClonesAtExit(col.transform.localScale, rover.RoverId);
             RoverManager.Instance.DeregisterRover(rover.RoverId);
             Destroy(col.gameObject);
         }

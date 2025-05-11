@@ -100,13 +100,13 @@
     <Compile Include="Assets\Scripts\DialogueData.cs" />
     <Compile Include="Assets\Scripts\Quest.cs" />
     <Compile Include="Assets\Scripts\Portal Game\Portal.cs" />
+    <Compile Include="Assets\Scripts\ShipZone.cs" />
     <Compile Include="Assets\Conveyor.cs" />
     <Compile Include="Assets\Scripts\Portal Game\PortalControl.cs" />
     <Compile Include="Assets\Scripts\QuestManager.cs" />
     <Compile Include="Assets\Scripts\Portal Game\Rover\RoverPortalController.cs" />
     <Compile Include="Assets\Scripts\ResumeUI.cs" />
     <Compile Include="Assets\ActivatableLight.cs" />
-    <Compile Include="Assets\Scripts\ShipZone.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

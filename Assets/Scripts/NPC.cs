@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour
         if (dialogueData != null)
         {
             QuestEvents.OnNPCInteracted?.Invoke(ID);
-            DialogueUI.Instance.ShowDialogue(dialogueData.dialogueLines[0]);
+            DialogueUI.Instance.ShowDialogue(dialogueData);
         }
     }
 

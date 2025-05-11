@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PortalType {left, right};
 public class PortalControl : MonoBehaviour
 {
     [SerializeField] private GameObject leftPortal;
@@ -54,28 +55,28 @@ public class PortalControl : MonoBehaviour
         rightPortal.GetComponent<Portal>().SwitchTransparency(true);
     }
 
-    public void SpawnClone(string portal)
+    public void SpawnClone(PortalType portal)
     {
-        if (portal == "left")
+        if (portal == PortalType.left)
         {
             var cloneInstance = Instantiate(clone, leftPortalSpawnPoint.position, Quaternion.identity);
-            cloneInstance.gameObject.name = "clone";
+            cloneInstance.gameObject.tag = "PlayerClone";
         }
-        else if (portal == "right")
+        else if (portal == PortalType.right)
         {
             var cloneInstance = Instantiate(clone, rightPortalSpawnPoint.position, Quaternion.identity);
-            cloneInstance.gameObject.name = "clone";
+            cloneInstance.gameObject.tag = "PlayerClone";
         }
         
     }
     
-    public void DisableCollider(string colliderToDisable)
+    public void DisableCollider(PortalType colliderToDisable)
     {
-        if (colliderToDisable == "left")
+        if (colliderToDisable == PortalType.left)
         {
             leftPortalCollider.enabled = false;
         }
-        else if (colliderToDisable == "right")
+        else if (colliderToDisable == PortalType.right)
         {
             rightPortalCollider.enabled = false;
         }
@@ -83,8 +84,8 @@ public class PortalControl : MonoBehaviour
 
     public void DisableColliders()
     {
-        DisableCollider("right");
-        DisableCollider("left");
+        DisableCollider(PortalType.left);
+        DisableCollider(PortalType.right);
     }
 
     public void EnableColliders()

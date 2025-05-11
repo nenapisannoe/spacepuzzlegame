@@ -13,6 +13,8 @@ public class Portal : MonoBehaviour
     [SerializeField] private SpriteRenderer rightHalf;
     [SerializeField] private SpriteRenderer leftHalf;
 
+    [SerializeField] private SpriteRenderer curtain;
+
     [SerializeField] PortalControl _portalControl;
 
 
@@ -23,12 +25,14 @@ public class Portal : MonoBehaviour
             Color newColor = new Color(rightHalf.color.r, rightHalf.color.g, rightHalf.color.b, 0.5f);
             leftHalf.color = newColor;
             rightHalf.color = newColor;
+            curtain.sortingOrder = 1;
         }
         else
         {
             Color newColor = new Color(rightHalf.color.r, rightHalf.color.g, rightHalf.color.b, 1f);
             leftHalf.color = newColor;
             rightHalf.color = newColor;
+            curtain.sortingOrder = 6;
         }
     }
 
@@ -39,22 +43,20 @@ public class Portal : MonoBehaviour
             col.GetComponent<MoveRover>().KillRover();
             return;
         }
-        if (!col.CompareTag("Player") || GameObject.Find("clone"))
+        if (!col.CompareTag("Player") || GameObject.FindGameObjectWithTag("PlayerClone"))
             return;
         enteredRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
-        enterVelocity = enteredRigidbody.velocity.x;
+        //enterVelocity = enteredRigidbody.velocity.x;
 
-        if (gameObject.name == "LeftPortal")
+        if (gameObject.CompareTag("LeftPortal"))
         {
-            _portalControl.DisableCollider("right");
-            _portalControl.SpawnClone("right");
-             FindObjectOfType<PlayerState>().direction = PlayerState.DirectionEnum.LEFT;
+            _portalControl.DisableCollider(PortalType.right);
+            _portalControl.SpawnClone(PortalType.right);
         }
-        else if (gameObject.name == "RightPortal")
+        else if (gameObject.CompareTag("RightPortal"))
         {
-            _portalControl.DisableCollider("left");
-            _portalControl.SpawnClone("left");
-            FindObjectOfType<PlayerState>().direction =  PlayerState.DirectionEnum.RIGHT;
+            _portalControl.DisableCollider(PortalType.left);
+            _portalControl.SpawnClone(PortalType.left);
         }
     }
 
@@ -62,7 +64,7 @@ public class Portal : MonoBehaviour
     {
         if (!col.CompareTag("Player"))
             return;
-        exitVelocity = enteredRigidbody.velocity.x;
+        //exitVelocity = enteredRigidbody.velocity.x;
 
         if (enterVelocity != exitVelocity)
         {

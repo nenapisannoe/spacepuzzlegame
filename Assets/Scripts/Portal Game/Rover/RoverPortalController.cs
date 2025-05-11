@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoverPortalController : MonoBehaviour
@@ -14,9 +15,7 @@ public class RoverPortalController : MonoBehaviour
     [SerializeField] private Collider2D enterPortalCollider;
     [SerializeField] private List<Collider2D> exitPortalColliders;
     [SerializeField] private GameObject roverPrefab;
-
-    private List<GameObject> activeClones = new List<GameObject>();
-    private HashSet<GameObject> clonesAtExit = new HashSet<GameObject>(); 
+    [SerializeField] private List<GameObject> clonesAtExit = new List<GameObject>(); 
     private bool isRecombining = false;
 
     [SerializeField] private int portalColor;
@@ -77,22 +76,20 @@ public class RoverPortalController : MonoBehaviour
 
 
 
-    public void SpawnClonesAtExit(Vector3 scale, int roverScale, int parentId)
+    public void SpawnClonesAtExit(Vector3 scale, int parentId)
     {
         foreach (var spawnPoint in exitPortalSpawnPoints)
         {
             var clone = Instantiate(roverPrefab, spawnPoint.position, Quaternion.identity);
             clone.transform.localScale = scale / exitPortals.Count;
-            clone.GetComponent<MoveRover>().roverScale = roverScale + 1;
 
             int cloneId = RoverManager.Instance.RegisterRover(clone, parentId);
             clone.GetComponent<MoveRover>().RoverId = cloneId;
-
-            activeClones.Add(clone);
+            clone.GetComponent<MoveRover>().ParentId = parentId;
+            clone.GetComponent<MoveRover>().halves = exitPortals.Count;
         }
 
         clonesAtExit.Clear(); 
-        Debug.Log($"Spawned {activeClones.Count} clones.");
     }
 
     public void CloneEnteredExitPortal(GameObject clone)
@@ -103,7 +100,7 @@ public class RoverPortalController : MonoBehaviour
         clonesAtExit.Add(clone);
         Debug.Log($"Clone entered exit portal: {clone.name}. Count at exit: {clonesAtExit.Count}");
 
-        if (clonesAtExit.Count == activeClones.Count)
+        if (clonesAtExit.Count == exitPortals.Count)
         {
             TryRecombineClones();
         }
@@ -120,27 +117,38 @@ public class RoverPortalController : MonoBehaviour
 
     private void TryRecombineClones()
     {
-        if (isRecombining || clonesAtExit.Count < activeClones.Count)
+        int clonesParent = clonesAtExit[0].GetComponent<MoveRover>().ParentId;
+        bool sameParent = true;
+        foreach(var clone in clonesAtExit)
+        {
+            if(clone.GetComponent<MoveRover>().ParentId != clonesParent)
+            {
+                sameParent = false;
+                break;
+            }
+        }
+        if(sameParent)
+            isRecombining = true;
+        else 
             return;
 
-        isRecombining = true;
-
         Vector3 combinedScale = Vector3.zero;
-        foreach (var clone in activeClones)
+        foreach (var clone in clonesAtExit)
         {
             combinedScale += clone.transform.localScale;
-            Destroy(clone);
         }
-        activeClones.Clear();
+        foreach (var clone in clonesAtExit.ToList())
+        {
+            Destroy(clone);
+            clonesAtExit.Remove(clone);
+        }
 
         Debug.Log("Recombining clones into one rover.");
 
         var recombinedRover = Instantiate(roverPrefab, enterPortalSpawnPoint.position, Quaternion.identity);
         recombinedRover.transform.localScale = combinedScale;
-        recombinedRover.GetComponent<MoveRover>().roverScale = 1;
-
         int cloneId = RoverManager.Instance.RegisterRover(recombinedRover);
-        recombinedRover.GetComponent<MoveRover>().RoverId = cloneId;
+        recombinedRover.GetComponent<MoveRover>().RoverId = clonesParent;
 
         OnClonesRecombined?.Invoke();
         EnableEnterPortal();

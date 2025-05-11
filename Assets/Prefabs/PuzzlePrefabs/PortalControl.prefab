@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 1390657218185652805}
   - component: {fileID: 1390657218185652804}
   - component: {fileID: 1390657218185652807}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,8 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd39b76d5299844822a29e53c65067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 1390657218291857387}
+  leftHalf: {fileID: 1390657218786687091}
+  curtain: {fileID: 1390657218871125755}
   _portalControl: {fileID: 1390657217985068346}
 --- !u!1 &1390657218291857384
 GameObject:
@@ -530,7 +531,7 @@ GameObject:
   - component: {fileID: 1390657218797542834}
   - component: {fileID: 1390657218797542845}
   - component: {fileID: 1390657218797542844}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RightPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,8 +594,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd39b76d5299844822a29e53c65067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHalf: {fileID: 0}
-  leftHalf: {fileID: 0}
+  rightHalf: {fileID: 1390657218633192538}
+  leftHalf: {fileID: 1390657218931980114}
+  curtain: {fileID: 1390657218099494150}
   _portalControl: {fileID: 1390657217985068346}
 --- !u!1 &1390657218871125752
 GameObject:

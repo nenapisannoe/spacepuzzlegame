@@ -14,7 +14,8 @@ public class ShipZone : MonoBehaviour, IPointerClickHandler
     private int _x;
     private int _y;
 
-    private bool locked = true;
+    private bool enterLocked = true;
+    private bool exitLocked = false;
 
     public void SetZoneCoordinates(int x, int y)
     {
@@ -22,15 +23,20 @@ public class ShipZone : MonoBehaviour, IPointerClickHandler
         _y = y;
     }
 
+    public bool IsExitLocked()
+    {
+        return exitLocked;
+    }
+
     public void Unlock()
     {
         lockIcon.SetActive(false);
-        locked = false;
+        enterLocked = false;
     }
     public void Lock()
     {
         lockIcon.SetActive(true);
-        locked = true;
+        exitLocked = true;
     }
 
     public void AddMark()
@@ -44,7 +50,7 @@ public class ShipZone : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!locked)
+        if(!enterLocked && !MapUI.Instance.GetCurrentZone().IsExitLocked())
             MoveToZone();
         else
             Debug.Log("They dont want you here mate");
@@ -52,7 +58,17 @@ public class ShipZone : MonoBehaviour, IPointerClickHandler
 
     private void MoveToZone()
     {
-        MapUI.Instance.MarkOnMap(_x,_y);
-        SceneManager.LoadScene(zoneHubSceneIndex);
+        if(IsAdjacent(_x, _y))
+        {
+            MapUI.Instance.MarkOnMap(_x,_y);
+            SceneManager.LoadScene(zoneHubSceneIndex);
+        }
+    }
+    private bool IsAdjacent(int targetX, int targetY)
+    {
+        int deltaX = Mathf.Abs(targetX - MapUI.Instance.GetCurrentZoneX());
+        int deltaY = Mathf.Abs(targetY - MapUI.Instance.GetCurrentZoneY());
+
+        return (deltaX == 1 && deltaY == 0) || (deltaX == 0 && deltaY == 1);
     }
 }

@@ -6,4 +6,5 @@ using UnityEngine;
 public class DialogueData : ScriptableObject
 {
     [TextArea(3,5)] public string[] dialogueLines;
+    public bool isQuestOffer;
 }
