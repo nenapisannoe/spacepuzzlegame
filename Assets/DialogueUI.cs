@@ -24,7 +24,8 @@ public class DialogueUI : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
+        if(Instance==null)
+            Instance = this;
         dialoguePanel.SetActive(false);
     }
 
@@ -32,29 +33,24 @@ public class DialogueUI : MonoBehaviour
     {
         currentDialogue = dialogue;
         currentLineIndex = 0;
+        if (dialoguePanel == null)
+            dialoguePanel = transform.Find("DialoguePanel").gameObject;
 
         OpenDialogue?.Invoke();
         dialoguePanel.SetActive(true);
 
-        proceedButton.onClick.RemoveAllListeners();
-        acceptButton.onClick.RemoveAllListeners();
-        rejectButton.onClick.RemoveAllListeners();
-
         if (dialogue.isQuestOffer)
         {
-            Debug.Log(dialogue.dialogueLines.Length);
             if (onAccept != null)
                 acceptButton.onClick.AddListener(() => { onAccept(); HideDialoguePanel(); });
 
             if (onReject != null)
-                rejectButton.onClick.AddListener(() => { onReject(); HideDialoguePanel(); });
+                rejectButton.onClick.AddListener(() => { HideDialoguePanel(); });
             
             if(dialogue.dialogueLines.Length > 1)
             {
                 proceedButton.onClick.AddListener(ProceedDialogue);
-                proceedButton.gameObject.SetActive(true);
-                acceptButton.gameObject.SetActive(false);
-                rejectButton.gameObject.SetActive(false);
+                SwitchButtonsToProceed();
             }
             else
             {
@@ -72,6 +68,12 @@ public class DialogueUI : MonoBehaviour
         ShowCurrentLine();
     }
 
+    private void SwitchButtonsToProceed()
+    {
+        proceedButton.gameObject.SetActive(true);
+        acceptButton.gameObject.SetActive(false);
+        rejectButton.gameObject.SetActive(false);
+    }
     private void SwitchButtonsToQuestChoice()
     {
         proceedButton.gameObject.SetActive(false);
@@ -86,17 +88,14 @@ public class DialogueUI : MonoBehaviour
         if (currentLineIndex < currentDialogue.dialogueLines.Length)
         {
             ShowCurrentLine();
+            if(currentDialogue.isQuestOffer && currentLineIndex == currentDialogue.dialogueLines.Length-1)
+            {
+                 SwitchButtonsToQuestChoice();
+            }
         }
         else
         {
-            if (currentDialogue.isQuestOffer)
-            {
-                SwitchButtonsToQuestChoice();
-            }
-            else
-            {
-                HideDialoguePanel();
-            }
+            HideDialoguePanel();
         }
     }
 
@@ -110,6 +109,7 @@ public class DialogueUI : MonoBehaviour
 
     public void HideDialoguePanel()
     {
+        currentLineIndex = 0;
         CloseDialogue?.Invoke();
         dialoguePanel.SetActive(false);
     }

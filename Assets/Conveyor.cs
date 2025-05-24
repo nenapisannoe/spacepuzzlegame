@@ -6,49 +6,56 @@ using UnityEngine.UI;
 
 public class Conveyor : ColorBasedActivatableObject
 {
-    public static Action<int, float> OnRoverStepOnConveyor;
-    public static Action<int> OnRoverStepOffConveyor;
-    [SerializeField] public Vector2 moveDirection = new Vector2(1, 0); 
+    [SerializeField] public Vector2 moveDirection = new Vector2(1, 0);
     [SerializeField] public float moveSpeed = 5f;
     [SerializeField] bool isDeactivated;
 
-
+    [SerializeField] private List<MoveRover> RoversOnConveyor = new List<MoveRover>();
+    public float scrollSpeed = 0.5f;
     void Start()
     {
         Field.OnWiresSolved += ActivateConveyor;
     }
-    void ActivateConveyor(ButtonColorType incomingColor)
+    void ActivateConveyor(ActivatorColorType incomingColor)
     {
-        if(ActivatableObjectColor == incomingColor)
+        if (ActivatableObjectColor == incomingColor)
+        {   
             isDeactivated = false;
+            foreach (var rover in RoversOnConveyor)
+            {
+                if (moveDirection.x < 0)
+                {
+                    rover.gameObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                }
+                rover.RoverOnConveyor(moveSpeed * moveDirection.x);
+            }
+        }
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(isDeactivated) return;
-        if(moveDirection.x < 0) 
-        {   
-            Debug.Log("hello");
+        if (!collision.CompareTag("Rover"))
+            return;
+        var moveRover = collision.GetComponent<MoveRover>();
+        RoversOnConveyor.Add(moveRover);
+        if (isDeactivated) return;
+        if (moveDirection.x < 0)
+        {
             collision.gameObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
-        if (collision.CompareTag("Rover"))
-        {
-            OnRoverStepOnConveyor?.Invoke(collision.GetComponent<MoveRover>().RoverId, moveSpeed * moveDirection.x);
-        }
-    }
-    void OnTriggerStay2D(Collider2D other)
-    {
-     /*   if(!isDeactivated)
-            OnRoverStepOnConveyor?.Invoke(other.GetComponent<MoveRover>().RoverId, moveSpeed); */
-    }
-
+        moveRover.RoverOnConveyor(moveSpeed * moveDirection.x);
+    }   
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Rover"))
-        {
-            OnRoverStepOffConveyor?.Invoke(collision.GetComponent<MoveRover>().RoverId);
-        }
+        if (!collision.CompareTag("Rover"))
+            return;
+        var moveRover = collision.GetComponent<MoveRover>();
+        RoversOnConveyor.Remove(moveRover);
+        moveRover.RoverOffConveyor();
+        RoversOnConveyor.Remove(moveRover);
+        
     }
+    
 }

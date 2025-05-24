@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ButtonColorType { Green, Magenta, Multiple }
+public enum ActivatorColorType { Green, Magenta, Blue, Multiple }
 public class ActivatableObject : MonoBehaviour
 {
-    public ButtonColorType objectColor; 
+    public ActivatorColorType objectColor; 
 }
 
 
 public class ColorBasedActivatorObject : MonoBehaviour
 {
-    public static Action<ButtonColorType> OnActivatorButtonPressed;
-    public ButtonColorType buttonColor; 
+    public static Action<ActivatorColorType> OnActivatorButtonPressed;
+    public ActivatorColorType buttonColor; 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

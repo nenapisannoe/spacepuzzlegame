@@ -7,26 +7,32 @@ using UnityEngine.UI;
 
 public class ActivatableLight : MonoBehaviour
 {
-    public ButtonColorType lightColor; 
+    public ActivatorColorType lightColor; 
     private SpriteRenderer spriteRenderer;
     public bool lightActivated = false;
+
+    [SerializeField] ObjectActivator objectActivator;
 
     public static Action OnLightActivated;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        ColorBasedActivatorObject.OnActivatorButtonPressed += ActivateLight;
+        if (objectActivator == ObjectActivator.Buttons)
+            ColorBasedActivatorObject.OnActivatorButtonPressed += ActivateLight;
+        else
+            Field.OnWiresSolved += ActivateLight;
     }
 
-    void ActivateLight(ButtonColorType buttonColor)
+    void ActivateLight(ActivatorColorType buttonColor)
     {
-        if(buttonColor == lightColor)
+        Debug.Log("hi");
+        if (buttonColor == lightColor)
         {
-           Color color = spriteRenderer.color;
-           color.a = 1f;
-           spriteRenderer.color = color;
-           lightActivated = true;
-           OnLightActivated?.Invoke();
+            Color color = spriteRenderer.color;
+            color.a = 1f;
+            spriteRenderer.color = color;
+            lightActivated = true;
+            OnLightActivated?.Invoke();
         }
     }
 }

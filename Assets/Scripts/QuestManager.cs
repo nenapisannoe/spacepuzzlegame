@@ -21,14 +21,24 @@ public class QuestManager : MonoBehaviour {
     int currentQuestStepInd = 0;
 
     public static QuestManager instance;
-    private void Awake() {
-        if (instance == null) {
+    private void Awake()
+    {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
             Debug.Log("QuestManager instance created: " + gameObject.name);
-        } else if (instance != this) {
+        }
+        else if (instance != this)
+        {
             Debug.Log("Duplicate QuestManager instance destroyed: " + gameObject.name);
             Destroy(gameObject);
+        }
+        if (SaveManager.Instance.saveData.currentQuest != null)
+        {
+            currentQuest = SaveManager.Instance.saveData.currentQuest;
+            currentQuestStepInd = SaveManager.Instance.saveData.currentQuestStep;
+            currentQuestStep = currentQuest.steps[currentQuestStepInd];
         }
     }
 
@@ -49,20 +59,34 @@ public class QuestManager : MonoBehaviour {
     }
 
     public void AcceptQuest(Quest newQuest)
-    {   
+    {
         currentQuest = newQuest;
         currentQuestStep = currentQuest.steps[0];
         QuestEvents.OnQuestDescriptionUpdated?.Invoke(currentQuest.Title);
         QuestEvents.OnQuestStepUpdated?.Invoke(currentQuestStep.stepDescription);
+        SaveManager.Instance.saveData.currentQuest = currentQuest;
+        if (currentQuest.puzzlesUnlockedOnAccceptance != null)
+        {
+            foreach (var p in currentQuest.puzzlesUnlockedOnAccceptance)
+                GameController.instance.PuzzlezAvailable.Add(p);
+        }
     }
 
+    public bool CanAcceptQuest()
+    {
+        if(currentQuest != null)
+            return true;
+        else
+            return false;
+    }
     public void QuestStepFinished()
     {
         currentQuestStepInd++;
-        if(currentQuestStepInd <= currentQuest.steps.Count-1)
+        SaveManager.Instance.saveData.currentQuestStep = currentQuestStepInd;
+        if (currentQuestStepInd <= currentQuest.steps.Count - 1)
         {
             currentQuestStep = currentQuest.steps[currentQuestStepInd];
-            QuestEvents.OnQuestDescriptionUpdated?.Invoke(currentQuestStep.stepDescription);
+            QuestEvents.OnQuestStepUpdated?.Invoke(currentQuestStep.stepDescription);
         }
         else
             FinishQuest();
@@ -76,8 +100,11 @@ public class QuestManager : MonoBehaviour {
             FactionManager.Instance.UpdateRelationship(impact.faction, impact.relationshipChange);
         }
         Debug.Log($"Отношения после: Рабочие {FactionManager.Instance.GetFactionRelationship(FactionType.Workers)}, Контрабандисты {FactionManager.Instance.GetFactionRelationship(FactionType.Smugglers)}, СБ {FactionManager.Instance.GetFactionRelationship(FactionType.Security)}");
+        QuestEvents.OnQuestStepUpdated?.Invoke("");
+        QuestEvents.OnQuestDescriptionUpdated?.Invoke("");
 
         currentQuest = null;
+        SaveManager.Instance.saveData.currentQuest = currentQuest;
     }
 
     public void AddQuest(Quest quest) {

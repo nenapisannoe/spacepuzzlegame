@@ -6,10 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] int x = 0;
-    [SerializeField] int y = 0;
-
-    public static Action<int,int> OnRoomEntered;
     public int GoToScene = 0;
     private bool isInTrigger = false;
     private void OnTriggerEnter2D(Collider2D col)
@@ -24,8 +20,8 @@ public class Door : MonoBehaviour
 
     private void EnterDoor()
     {
-        OnRoomEntered?.Invoke(x,y);
-        SceneManager.LoadScene(GoToScene);
+        if(GameController.instance.PuzzlezAvailable.Contains(GoToScene))
+            SceneManager.LoadScene(GoToScene);
     }
 
 

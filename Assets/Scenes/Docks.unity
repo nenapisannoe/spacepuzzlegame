@@ -296,8 +296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cd9436fb1711545b03227164399ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 1
-  y: 0
   GoToScene: 3
 --- !u!212 &380526453
 SpriteRenderer:
@@ -421,8 +419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cd9436fb1711545b03227164399ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
   GoToScene: 2
 --- !u!212 &462968164
 SpriteRenderer:
@@ -792,8 +788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cd9436fb1711545b03227164399ff1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 2
-  y: 0
   GoToScene: 4
 --- !u!212 &1470550955
 SpriteRenderer:
@@ -1086,6 +1080,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 669870186, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
+      propertyPath: effectRules.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 669870186, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
+      propertyPath: effectRules.Array.data[0].threshold
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 669870186, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
+      propertyPath: effectRules.Array.data[0].triggerFaction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 669870186, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
+      propertyPath: effectRules.Array.data[0].affectedFactions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 669870186, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
+      propertyPath: effectRules.Array.data[0].affectedFactions.Array.data[0].faction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 669870186, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
+      propertyPath: effectRules.Array.data[0].affectedFactions.Array.data[0].relationshipChange
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 9070955520844208283, guid: 9bfebd49d279e2844a272dfb14c70d0a, type: 3}
       propertyPath: m_Name
       value: GameController

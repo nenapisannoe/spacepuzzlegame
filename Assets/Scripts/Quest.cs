@@ -9,6 +9,8 @@ public class Quest : ScriptableObject
     public string Title;
     public List<FactionImpact> factionImpacts;
     public List<QuestStep> steps = new List<QuestStep>();
+
+    public List<int> puzzlesUnlockedOnAccceptance;
 }
 
 [System.Serializable]

@@ -40,8 +40,7 @@ public class Portal : MonoBehaviour
     {
         if (col.CompareTag("Rover"))
         {
-            col.GetComponent<MoveRover>().KillRover();
-            return;
+            RoverManager.Instance.KillRovers();
         }
         if (!col.CompareTag("Player") || GameObject.FindGameObjectWithTag("PlayerClone"))
             return;
@@ -68,13 +67,14 @@ public class Portal : MonoBehaviour
 
         if (enterVelocity != exitVelocity)
         {
-            Destroy(GameObject.Find("Clone"));
+            Destroy(GameObject.FindGameObjectWithTag("PlayerClone"));
         }
         else if (gameObject.name != "clone")
         {
             Destroy(col.gameObject);
             _portalControl.EnableColliders();
-            GameObject.Find("clone").name = "Player";
+            GameObject.FindGameObjectWithTag("PlayerClone").name = "Player";
+            GameObject.FindGameObjectWithTag("PlayerClone").tag = "Player";
         }
     }
 }

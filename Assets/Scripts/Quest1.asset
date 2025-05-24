@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac6dd9cc5f7f8f41a696a853ba15ab5, type: 3}
   m_Name: Quest1
   m_EditorClassIdentifier: 
-  Title: Quest
+  Title: "\u0420\u0430\u0431\u043E\u0447\u0438\u043C \u043D\u0443\u0436\u0435\u043D
+    \u043A\u043E\u0440\u0430\u0431\u043B\u044C!"
   factionImpacts:
   - faction: 0
-    relationshipChange: 0
+    relationshipChange: 10
   - faction: 1
     relationshipChange: -10
   - faction: 2
@@ -25,6 +26,7 @@ MonoBehaviour:
     stepDescription: "\u041F\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u0442\u044C
       \u0441 \u0440\u0430\u0431\u043E\u0447\u0438\u043C"
     objectiveID: Worker1
-  - stepGoal: 0
-    stepDescription: "\u041F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C \u043A\u043E\u0440\u0430\u0431\u043B\u044C"
-    objectiveID: Ship1
+  - stepGoal: 2
+    stepDescription: "\u041F\u043E\u0447\u0438\u043D\u0438\u0442\u044C \u043A\u043E\u043D\u0432\u0435\u0439\u0435\u0440"
+    objectiveID: Floor1Puzzle1
+  puzzlesUnlockedOnAccceptance: 04000000

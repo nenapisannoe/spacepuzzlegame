@@ -11,12 +11,31 @@ public class MoveRover : MonoBehaviour
     [SerializeField] RoverController roverController;
     [SerializeField] public int RoverId;
     [SerializeField] public int ParentId;
+    [SerializeField] GameObject pointer;
+
+    public Transform currentFloor; 
 
     public int halves;
 
     [SerializeField] private bool isOriginal = false;
 
     [SerializeField] private bool Conveyored = false;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            currentFloor = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            if (currentFloor == collision.transform)
+                currentFloor = null;
+        }
+    }
 
     void Start()
     {
@@ -24,8 +43,16 @@ public class MoveRover : MonoBehaviour
         roverController = FindObjectOfType<RoverController>();
         if(isOriginal)
             RoverManager.Instance.RegisterRover(this.gameObject);
-        Conveyor.OnRoverStepOnConveyor += RoverOnConveyor;
-        Conveyor.OnRoverStepOffConveyor += RoverOffConveyor;
+    }
+
+    public void ShowPointer()
+    {
+        pointer.SetActive(true);
+    }
+
+    public void HidePointer()
+    {
+        pointer.SetActive(false);
     }
     void Update()
     {
@@ -45,22 +72,16 @@ public class MoveRover : MonoBehaviour
         dirX = movement * moveSpeed;
     }
 
-    void RoverOnConveyor(int incomingID, float newSpeed)
+    public void RoverOnConveyor(float newSpeed)
     {
-        if(incomingID == RoverId)
-        {
-            Conveyored = true;
-            dirX = newSpeed;
-        }
+        Conveyored = true;
+        dirX = newSpeed;
     }
 
-    void RoverOffConveyor(int incomingID)
+    public void RoverOffConveyor()
     {
-        if(incomingID == RoverId)
-        {
-            Conveyored = false;
-            dirX = moveSpeed;
-        }
+        Conveyored = false;
+        dirX = moveSpeed;
     }
 
     private void FixedUpdate()
@@ -76,6 +97,6 @@ public class MoveRover : MonoBehaviour
     }
     private void OnDestroy()
     {
-        RoverManager.Instance.DeregisterRover(RoverId);
+        RoverManager.Instance.DeregisterRover(this);
     }
 }

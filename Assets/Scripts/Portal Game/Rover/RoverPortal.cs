@@ -11,7 +11,7 @@ public class RoverPortal : MonoBehaviour
 
     private void Start()
     {
-        portalController = GetComponentInParent<RoverPortalController>();
+        //portalController = GetComponentInParent<RoverPortalController>();
     }
 
     public void SwitchTransparency(bool isTransparent)
@@ -40,7 +40,7 @@ public class RoverPortal : MonoBehaviour
         if (gameObject.name == "EnterPortal")
         {
             portalController.SpawnClonesAtExit(col.transform.localScale, rover.RoverId);
-            RoverManager.Instance.DeregisterRover(rover.RoverId);
+            RoverManager.Instance.DeregisterRover(rover);
             Destroy(col.gameObject);
         }
         else if (gameObject.name == "ExitPortal")

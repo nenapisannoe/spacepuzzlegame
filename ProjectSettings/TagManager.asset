@@ -10,6 +10,11 @@ TagManager:
   - Light
   - Row
   - Room
+  - PlayerClone
+  - LeftPortal
+  - RightPortal
+  - Floor
+  - PickableItem
   layers:
   - Default
   - TransparentFX
@@ -17,9 +22,9 @@ TagManager:
   - 
   - Water
   - UI
-  - LeftPortal
-  - RightPortal
-  - PlayerClone
+  - 
+  - 
+  - 
   - 
   - 
   - 

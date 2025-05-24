@@ -1,77 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public class RoverData
-{
-    public GameObject RoverObject;
-    public int RoverId;
-    public int ParentId; 
-    public Vector3 Scale;
-}
 
 public class RoverManager: MonoBehaviour, IControllable
 {
     public static RoverManager Instance { get; private set; }
-    private Dictionary<int, RoverData> rovers = new Dictionary<int, RoverData>();
+    public List<MoveRover> ActiveRovers = new List<MoveRover>();
+    private Transform roverSpawnPoint;
+    GameObject RoverPrefab;
     private int nextRoverId = 1;
-
     public bool isControlled;
 
     public void SetControl(bool isActive)
     {
         isControlled = isActive;
+        if(isControlled)
+        {
+            foreach (var r in ActiveRovers)
+            {
+                r.ShowPointer();
+            }
+        }
+        else 
+        {
+            foreach (var r in ActiveRovers)
+            {
+                r.HidePointer();
+            }
+        }
+    }
+
+    void SpawnRover()
+    {
+        Instantiate(RoverPrefab,roverSpawnPoint.position, Quaternion.identity);
     }
 
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject);
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     public int RegisterRover(GameObject rover, int parentId = 0)
     {
         int roverId = nextRoverId++;
-        var roverData = new RoverData
-        {
-            RoverObject = rover,
-            RoverId = roverId,
-            ParentId = parentId,
-            Scale = rover.transform.localScale
-        };
         rover.GetComponent<MoveRover>().RoverId = roverId;
-        rovers.Add(roverId, roverData);
+        ActiveRovers.Add(rover.GetComponent<MoveRover>());
         return roverId;
     }
 
-    public void DeregisterRover(int roverId)
+    public void DeregisterRover(MoveRover rover)
     {
-        if (rovers.ContainsKey(roverId))
+        if (ActiveRovers.Contains(rover))
         {
-            rovers.Remove(roverId);
+            ActiveRovers.Remove(rover);
         }
-    }
-    public List<int> GetChildRovers(int parentId)
-    {
-        var children = new List<int>();
-        foreach (var rover in rovers.Values)
-        {
-            if (rover.ParentId == parentId)
-            {
-                children.Add(rover.RoverId);
-            }
-        }
-        return children;
     }
 
-    public RoverData GetRoverData(int roverId)
+    public void KillRovers()
     {
-        return rovers.ContainsKey(roverId) ? rovers[roverId] : null;
+        foreach (var r in ActiveRovers.ToList())
+        {
+            DeregisterRover(r);
+            Destroy(r.gameObject);
+        }
+        SpawnRover();
     }
 }
-

@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI; 
 
 public class MapUI : MonoBehaviour
 {
     private ShipZone[,] Zones;
 
     [SerializeField] private GameObject Map;
+    [SerializeField] private GameObject RejectionWindow;
+    [SerializeField] private TMP_Text RejectionText;
+    [SerializeField] Button RejectionWindowButton;
+
     private (int,int) markedZone = (-1,-1);
 
     private int _dimensionX = 3;
@@ -63,6 +69,14 @@ public class MapUI : MonoBehaviour
             if(zone.relationshipWithFactionRequired <= FactionManager.Instance.GetFactionRelationship(zone.HostFaction))
                 zone.Unlock();
         }   
+
+         RejectionWindowButton.onClick.AddListener(HideRejectionWindow);
+
+    }
+
+    void OnDisable()
+    {
+        RejectionWindowButton.onClick.RemoveListener(HideRejectionWindow);
     }
     void InitializeMap()
     { 
@@ -83,6 +97,24 @@ public class MapUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void ShowRejectionWindow(string factionName, int relationRequired)
+    {
+        RejectionWindow.SetActive(true);
+        RejectionText.text = $"Фракция {factionName} пока не открыла вам доступ к этой зоне. Необходимый уровень репутации: {relationRequired}";
+    }
+
+    public void ShowExitRejectionWindow(string factionName)
+    {
+        RejectionWindow.SetActive(true);
+        RejectionText.text = $"Фракция {factionName} из-за падения репутации закрыла вам выход на уровень выше из этой зоны. Необходимо найти другой путь.";
+    }
+
+
+    public void HideRejectionWindow()
+    {
+        RejectionWindow.SetActive(false);
     }
 
     

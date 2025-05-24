@@ -11,6 +11,8 @@ public class Tile : MonoBehaviour
   static public string NAME_BACK = "Back";
   static public string NAME_MAK = "Mark";
 
+  public int connectionCid;
+
   public int cid = 0;
   [HideInInspector]
   public UnityEvent<Tile> onSelected;
@@ -82,9 +84,10 @@ public class Tile : MonoBehaviour
     _originalColor = BackComponentRenderer.color;
     if (_isPlayble)
       SetConnectionColor(MarkComponentRenderer.color);
-    else
-      Destroy(MarkComponentRenderer.gameObject);
+    //else
+      //Destroy(MarkComponentRenderer.gameObject);
   }
+
 
 public void ResetConnection()
 {
@@ -93,7 +96,7 @@ public void ResetConnection()
     connection.transform.eulerAngles = Vector3.zero;
     Debug.Log("Tile -> Reset(" + _isSolved + "): " + cid);
     _isSolved = false;
-    _isPartOfConnection = false; // Ensure tile is marked as unconnected
+    _isPartOfConnection = false; 
 }
   public void HightlightReset()
   {
@@ -114,7 +117,6 @@ public void ResetConnection()
 
   public void ConnectionToSide(bool top, bool rigth, bool bottom, bool left)
   {
-    Debug.Log("Tile -> ConnectionToSide: " + top + "|" + rigth + "|" + bottom + "|" + left);
     this.transform.Find(NAME_CONNECTION).gameObject.SetActive(true);
     int angle = rigth ? -90 : bottom ? -180 : left ? -270 : 0;
     this.transform.Find(NAME_CONNECTION).gameObject.transform.Rotate(new Vector3(0, 0, angle));
@@ -140,7 +142,7 @@ public void ResetConnection()
 
   void InvokeOnSelected()
   {
-    Debug.Log("Tile -> InvokeOnSelected(" + cid + ")");
-    if (onSelected != null) onSelected.Invoke(this.GetComponent<Tile>());
+    if (onSelected != null)
+      onSelected.Invoke(this.GetComponent<Tile>());
   }
 }

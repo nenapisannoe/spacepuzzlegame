@@ -156,7 +156,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: a9894b2c8ea316f4b921275352480ab8, type: 3}
-  m_Color: {r: 0.19215688, g: 0.3019608, b: 0.47450984, a: 1}
+  m_Color: {r: 0.5803922, g: 0.7019608, b: 0.8941177, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -190,7 +190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1390657218108036362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.231, y: -0.174, z: 0}
+  m_LocalPosition: {x: -0.231, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1390657218797542834}
@@ -207,9 +207,9 @@ GameObject:
   - component: {fileID: 1390657218185652805}
   - component: {fileID: 1390657218185652804}
   - component: {fileID: 1390657218185652807}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: LeftPortal
-  m_TagString: Untagged
+  m_TagString: LeftPortal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -270,8 +270,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd39b76d5299844822a29e53c65067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHalf: {fileID: 1390657218291857387}
-  leftHalf: {fileID: 1390657218786687091}
+  rightHalf: {fileID: 1390657218786687091}
+  leftHalf: {fileID: 1390657218291857387}
   curtain: {fileID: 1390657218871125755}
   _portalControl: {fileID: 1390657217985068346}
 --- !u!1 &1390657218291857384
@@ -346,7 +346,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 65f0079cbe8e04f4582c77d3b2f0bb3c, type: 3}
-  m_Color: {r: 0.42052332, g: 0.7921593, b: 0.8490566, a: 1}
+  m_Color: {r: 0.25244746, g: 0.2597352, b: 0.8773585, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -428,7 +428,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 65f0079cbe8e04f4582c77d3b2f0bb3c, type: 3}
-  m_Color: {r: 1, g: 0.6116635, b: 0.33490568, a: 1}
+  m_Color: {r: 0.25244746, g: 0.2597352, b: 0.8773585, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -510,7 +510,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 9061139af236ba746a12f23e280d4ee6, type: 3}
-  m_Color: {r: 0.42052332, g: 0.7921593, b: 0.8490566, a: 1}
+  m_Color: {r: 0.25244746, g: 0.2597352, b: 0.8773585, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -531,9 +531,9 @@ GameObject:
   - component: {fileID: 1390657218797542834}
   - component: {fileID: 1390657218797542845}
   - component: {fileID: 1390657218797542844}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: RightPortal
-  m_TagString: Untagged
+  m_TagString: RightPortal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -594,8 +594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cdd39b76d5299844822a29e53c65067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHalf: {fileID: 1390657218633192538}
-  leftHalf: {fileID: 1390657218931980114}
+  rightHalf: {fileID: 1390657218931980114}
+  leftHalf: {fileID: 1390657218633192538}
   curtain: {fileID: 1390657218099494150}
   _portalControl: {fileID: 1390657217985068346}
 --- !u!1 &1390657218871125752
@@ -670,7 +670,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: a9894b2c8ea316f4b921275352480ab8, type: 3}
-  m_Color: {r: 0.19215688, g: 0.3019608, b: 0.47450984, a: 1}
+  m_Color: {r: 0.5803922, g: 0.7019608, b: 0.8941177, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -752,7 +752,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 9061139af236ba746a12f23e280d4ee6, type: 3}
-  m_Color: {r: 1, g: 0.6116635, b: 0.33490568, a: 1}
+  m_Color: {r: 0.25244746, g: 0.2597352, b: 0.8773585, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

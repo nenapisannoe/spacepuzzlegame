@@ -7,22 +7,25 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
     
-    public bool SideWalkRuleOn = true;
-    
     public InputManager InputManager { get; private set; }
     
     public event Action<bool> OnResumeOpen;
     public event Action<bool> OnMapOpen;
     [SerializeField] GameObject pointer;
+
+    public List<int> PuzzlezAvailable = new List<int>();
     
     private bool TimeIsPaused() => Math.Abs(Time.timeScale) < float.Epsilon;
 
     void Awake()
     {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else if (instance != this) {
+        }
+        else if (instance != this)
+        {
             Destroy(gameObject);
         }
 
@@ -31,6 +34,7 @@ public class GameController : MonoBehaviour
         InputManager.OpenMap += ViewMap;
         DialogueUI.Instance.OpenDialogue += PauseTime;
         DialogueUI.Instance.CloseDialogue += ResumeTime;
+        PuzzlezAvailable = SaveManager.Instance.saveData.unlockedPuzzles;
     }
 
     public void ViewResume()

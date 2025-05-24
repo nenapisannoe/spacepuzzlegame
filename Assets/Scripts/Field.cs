@@ -7,17 +7,22 @@ using UnityEngine.UI;
 public class Field : MonoBehaviour
 {
 
-  [SerializeField] ButtonColorType ActiateObjectColor;
+  [SerializeField] ActivatorColorType ActiateObjectColor;
   private Tile[,] _grid;
   private bool _canDrawConnection = false;
 
-  private List<Tile> _connections = new List<Tile>();
+  [SerializeField] private List<Tile> _connections = new List<Tile>();
   private Tile _connectionTile;
 
   private List<int> _solvedConnections = new List<int>();
 
-  public static Action<ButtonColorType> OnWiresSolved;
+  public static Action<ActivatorColorType> OnWiresSolved;
   public static Action<int> OnWireConnected;
+
+  Dictionary<int, List<Tile>> connectionsByCid = new Dictionary<int, List<Tile>>();
+
+  int currentCid = 0;
+
 
 
   private int _dimensionX = 0;
@@ -81,7 +86,7 @@ public class Field : MonoBehaviour
       }
       results += "}\n";
     }
-    Debug.Log("Main -> Start: _grid: \n" + results);
+    //Debug.Log("Main -> Start: _grid: \n" + results);
   }
 
   Vector3 _mouseWorldPosition;
@@ -92,15 +97,19 @@ public class Field : MonoBehaviour
     if (_canDrawConnection)
     {
       _mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      _mouseGridX = (int)(Mathf.Floor(_mouseWorldPosition.x) - transform.position.x);
-      _mouseGridY = (int)(Mathf.Floor(_mouseWorldPosition.y) - transform.position.y);
+      Vector3 localPos = transform.InverseTransformPoint(_mouseWorldPosition);
+      _mouseGridX = Mathf.FloorToInt(localPos.x);
+      _mouseGridY = Mathf.FloorToInt(localPos.y);
 
-      Debug.Log($"Mouse Grid Y: {_dimensionX}, Dimension Y: {_dimensionY}");
+
+
+      //Debug.Log($"Mouse Grid Y: {_dimensionX}, Dimension Y: {_dimensionY}");
 
       if (_CheckMouseOutsideGrid()) return;
 
       Tile hoverTile = _grid[_mouseGridX, _mouseGridY];
       Tile firstTile = _connections[0];
+      currentCid = firstTile.cid;
       /*if (hoverTile._isPartOfConnection)
       {
           Debug.Log("Field -> OnMouseDrag: Erasing intersected connection");
@@ -113,7 +122,7 @@ public class Field : MonoBehaviour
       Vector2 connectionTilePosition = _FindTileCoordinates(_connectionTile);
       bool isPositionDifferent = IsDifferentPosition(_mouseGridX, _mouseGridY, connectionTilePosition);
 
-      Debug.Log("Field -> OnMouseDrag(" + isPositionDifferent + "): " + _mouseGridX + "|" + _mouseGridY);
+      //Debug.Log("Field -> OnMouseDrag(" + isPositionDifferent + "): " + _mouseGridX + "|" + _mouseGridY);
 
       if (isPositionDifferent)
       {
@@ -121,7 +130,7 @@ public class Field : MonoBehaviour
         var deltaY = System.Math.Abs(connectionTilePosition.y - _mouseGridY);
         bool isShiftNotOnNext = deltaX > 1 || deltaY > 1;
         bool isShiftDiagonal = (deltaX > 0 && deltaY > 0);
-        Debug.Log("Field -> OnMouseDrag: isShiftNotOnNext = " + isShiftNotOnNext + "| isShiftDiagonal = " + isShiftDiagonal);
+        //Debug.Log("Field -> OnMouseDrag: isShiftNotOnNext = " + isShiftNotOnNext + "| isShiftDiagonal = " + isShiftDiagonal);
         if (isShiftNotOnNext || isShiftDiagonal) return;
 
         hoverTile.Highlight();
@@ -143,14 +152,17 @@ public class Field : MonoBehaviour
         if (_CheckIfTilesMatch(hoverTile, firstTile))
         {
           _connections.ForEach((tile) => tile.isSolved = true);
+          _connections.ForEach((tile) => tile.connectionCid = currentCid);
           _canDrawConnection = false;
           _amountToSolve.Remove(firstTile.cid);
           OnWireConnected?.Invoke(firstTile.cid);
+          connectionsByCid.Add(currentCid, _connections);
           
           if (_amountToSolve.Keys.Count == 0)
           {
-            Debug.Log("GAME COMPLETE");
+            //Debug.Log("GAME COMPLETE");
             gameObject.SetActive(false);
+            Debug.Log("hi");
             OnWiresSolved?.Invoke(ActiateObjectColor);
           }
         }
@@ -165,33 +177,35 @@ public class Field : MonoBehaviour
 
   bool _CheckMouseOutsideGrid()
   {
-    Debug.Log("_mouseGridY >= _dimensionY || _mouseGridY < 0 || _mouseGridX >= _dimensionX || _mouseGridX < 0");
-    Debug.Log($"{_mouseGridY} >= {_dimensionY} || {_mouseGridY} < 0 || {_mouseGridX} >= {_dimensionX} || {_mouseGridX} < 0;");
+    //Debug.Log("_mouseGridY >= _dimensionY || _mouseGridY < 0 || _mouseGridX >= _dimensionX || _mouseGridX < 0");
+    //Debug.Log($"{_mouseGridY} >= {_dimensionY} || {_mouseGridY} < 0 || {_mouseGridX} >= {_dimensionX} || {_mouseGridX} < 0;");
     return _mouseGridY >= _dimensionX || _mouseGridY < 0 || _mouseGridX >= _dimensionY || _mouseGridX < 0;
   }
 
   void _EraseConnection(Tile tile)
-{
-    if (_connections.Contains(tile))
+  {
+    if (connectionsByCid.ContainsKey(tile.connectionCid))
     {
-        foreach (Tile t in _connections)
+        foreach (Tile t in connectionsByCid[tile.connectionCid])
         {
+            tile.connectionCid = 0;
             t.ResetConnection();
             t._isPartOfConnection = false;
+            t.isSolved = false;
             t.HightlightReset();
         }
-        _connections.Clear();
+        connectionsByCid.Remove(tile.connectionCid);
     }
-}
+  }
 
 
   void onTileSelected(Tile tile)
 {
-    Debug.Log("Field -> onTileSelected(" + tile.isSelected + "): " + _FindTileCoordinates(tile));
+    //Debug.Log("Field -> onTileSelected(" + tile.isSelected + "): " + _FindTileCoordinates(tile));
 
     if (tile._isPartOfConnection)
     {
-        Debug.Log("Field -> onTileSelected: Erasing connection");
+        //Debug.Log("Field -> onTileSelected: Erasing connection");
         _EraseConnection(tile);
         return;
     }
@@ -218,13 +232,13 @@ public class Field : MonoBehaviour
         _canDrawConnection = false;
     }
 
-    Debug.Log($"[onTileSelected] _connectionTile set to: {_FindTileCoordinates(_connectionTile)}");
+    //Debug.Log($"[onTileSelected] _connectionTile set to: {_FindTileCoordinates(_connectionTile)}");
 }
 
 
   public void onRestart()
   {
-    Debug.Log("Field -> onRestart");
+    //Debug.Log("Field -> onRestart");
     int dimension = transform.childCount;
     for (int y = 0; y < dimension; y++)
     {
@@ -244,7 +258,7 @@ public class Field : MonoBehaviour
 
 void _ResetConnections()
 {
-    Debug.Log("Field -> _ResetConnections: Clearing connections");
+    Debug.Log($"Field -> _ResetConnections: Clearing connections {currentCid}");
     foreach (Tile tile in _connections)
     {
         tile.ResetConnection();

@@ -58,7 +58,7 @@ public class SlidingWall : ColorBasedActivatableObject
         if(allLightsActivated)
             SlideWall();
     }
-    void ActivateWall(ButtonColorType fieldID)
+    void ActivateWall(ActivatorColorType fieldID)
     {
         if(fieldID == ActivatableObjectColor)
             SlideWall();

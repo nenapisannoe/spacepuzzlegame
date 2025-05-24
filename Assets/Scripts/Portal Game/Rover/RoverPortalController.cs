@@ -87,6 +87,8 @@ public class RoverPortalController : MonoBehaviour
             clone.GetComponent<MoveRover>().RoverId = cloneId;
             clone.GetComponent<MoveRover>().ParentId = parentId;
             clone.GetComponent<MoveRover>().halves = exitPortals.Count;
+            if(RoverManager.Instance.isControlled)
+                clone.GetComponent<MoveRover>().ShowPointer();
         }
 
         clonesAtExit.Clear(); 
@@ -143,7 +145,6 @@ public class RoverPortalController : MonoBehaviour
             clonesAtExit.Remove(clone);
         }
 
-        Debug.Log("Recombining clones into one rover.");
 
         var recombinedRover = Instantiate(roverPrefab, enterPortalSpawnPoint.position, Quaternion.identity);
         recombinedRover.transform.localScale = combinedScale;

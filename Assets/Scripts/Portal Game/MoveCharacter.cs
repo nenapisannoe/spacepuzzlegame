@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MoveCharacter : MonoBehaviour, IControllable
 {
@@ -10,10 +11,34 @@ public class MoveCharacter : MonoBehaviour, IControllable
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float dirX;
     private bool isControlled = true;
+    [SerializeField] GameObject pointer;
+    
+    public Transform currentFloor; 
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            currentFloor = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            if (currentFloor == collision.transform)
+                currentFloor = null;
+        }
+    }
 
     public void SetControl(bool isActive)
     {
         isControlled = isActive;
+        if (isControlled)
+            pointer.SetActive(true);
+        else
+            pointer.SetActive(false);
     }
     void Start()
     {
@@ -23,23 +48,7 @@ public class MoveCharacter : MonoBehaviour, IControllable
     void Update()
     {
         if(!isControlled) return;
-        if (GameController.instance.SideWalkRuleOn)
-        {
-            if (_playerState.direction == PlayerState.DirectionEnum.LEFT)
-            {
-                dirX = -Math.Abs(Input.GetAxisRaw("Horizontal") * moveSpeed);
-            }
-            else if (_playerState.direction == PlayerState.DirectionEnum.RIGHT)
-            {
-                dirX = Math.Abs(Input.GetAxisRaw("Horizontal") * moveSpeed);
-            }
-            else
-            {
-                dirX = Input.GetAxisRaw("Horizontal") * moveSpeed;
-            }
-        }
-        else
-            dirX = Input.GetAxisRaw("Horizontal") * moveSpeed;
+        dirX = Input.GetAxisRaw("Horizontal") * moveSpeed;
     }
 
     private void FixedUpdate()

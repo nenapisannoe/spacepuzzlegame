@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
     public event Action OpenMap;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Escape))
             OpenResume?.Invoke();
         if (Input.GetKeyDown(KeyCode.M))
             OpenMap?.Invoke();

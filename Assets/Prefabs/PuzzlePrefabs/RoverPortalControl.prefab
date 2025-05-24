@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: a9894b2c8ea316f4b921275352480ab8, type: 3}
-  m_Color: {r: 0.19215688, g: 0.3019608, b: 0.47450984, a: 1}
+  m_Color: {r: 0.5803922, g: 0.7019608, b: 0.8980392, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -154,7 +154,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 9061139af236ba746a12f23e280d4ee6, type: 3}
-  m_Color: {r: 0.42052332, g: 0.7921593, b: 0.8490566, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -239,6 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
+  rightHalf: {fileID: 0}
+  leftHalf: {fileID: 0}
 --- !u!1 &7002053971270291834
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +373,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 9061139af236ba746a12f23e280d4ee6, type: 3}
-  m_Color: {r: 1, g: 0.6116635, b: 0.33490568, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -453,7 +455,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 65f0079cbe8e04f4582c77d3b2f0bb3c, type: 3}
-  m_Color: {r: 1, g: 0.6116635, b: 0.33490568, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -535,7 +537,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: a9894b2c8ea316f4b921275352480ab8, type: 3}
-  m_Color: {r: 0.19215688, g: 0.3019608, b: 0.47450984, a: 1}
+  m_Color: {r: 0.5803922, g: 0.7019608, b: 0.8980392, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -617,7 +619,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 9061139af236ba746a12f23e280d4ee6, type: 3}
-  m_Color: {r: 0.42052332, g: 0.7921593, b: 0.8490566, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -686,6 +688,9 @@ MonoBehaviour:
   - {fileID: 7002053971265589553}
   - {fileID: 7002053972721765939}
   roverPrefab: {fileID: 0}
+  clonesAtExit: []
+  portalColor: 0
+  isPortalOn: 0
 --- !u!1 &7002053972378088311
 GameObject:
   m_ObjectHideFlags: 0
@@ -758,7 +763,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 65f0079cbe8e04f4582c77d3b2f0bb3c, type: 3}
-  m_Color: {r: 0.42052332, g: 0.7921593, b: 0.8490566, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -873,6 +878,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
+  rightHalf: {fileID: 0}
+  leftHalf: {fileID: 0}
 --- !u!1 &7002053972721765948
 GameObject:
   m_ObjectHideFlags: 0
@@ -948,6 +955,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalController: {fileID: 0}
+  rightHalf: {fileID: 0}
+  leftHalf: {fileID: 0}
 --- !u!1 &7002053972935909846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,7 +1029,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 65f0079cbe8e04f4582c77d3b2f0bb3c, type: 3}
-  m_Color: {r: 0.42052332, g: 0.7921593, b: 0.8490566, a: 1}
+  m_Color: {r: 0.5754717, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1102,7 +1111,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: a9894b2c8ea316f4b921275352480ab8, type: 3}
-  m_Color: {r: 0.19215688, g: 0.3019608, b: 0.47450984, a: 1}
+  m_Color: {r: 0.5803922, g: 0.7019608, b: 0.8980392, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0

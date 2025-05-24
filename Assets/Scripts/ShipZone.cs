@@ -50,20 +50,45 @@ public class ShipZone : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(!enterLocked && !MapUI.Instance.GetCurrentZone().IsExitLocked())
+        if(!enterLocked)
             MoveToZone();
         else
-            Debug.Log("They dont want you here mate");
+            MapUI.Instance.ShowRejectionWindow(FactionManager.Instance.GetFaction(HostFaction), relationshipWithFactionRequired);
     }
 
     private void MoveToZone()
     {
         if(IsAdjacent(_x, _y))
         {
-            MapUI.Instance.MarkOnMap(_x,_y);
-            SceneManager.LoadScene(zoneHubSceneIndex);
+            if(IsAbove(_x,_y))
+            {
+                if(FactionManager.Instance.GetFactionRelationship(HostFaction) < relationshipWithFactionRequired)
+                    Lock();
+                if(IsExitLocked())
+                {
+                    MapUI.Instance.ShowExitRejectionWindow(FactionManager.Instance.GetFaction(HostFaction));
+                }
+                else
+                {
+                    MapUI.Instance.MarkOnMap(_x,_y);
+                    SceneManager.LoadScene(zoneHubSceneIndex);
+                }
+            }
+            else
+            {
+                MapUI.Instance.MarkOnMap(_x,_y);
+                SceneManager.LoadScene(zoneHubSceneIndex);
+            }
         }
     }
+    private bool IsAbove(int targetX, int targetY)
+    {
+        int currentX = MapUI.Instance.GetCurrentZoneX();
+        int currentY = MapUI.Instance.GetCurrentZoneY();
+
+        return targetX == currentX && targetY == currentY + 1;
+    }
+
     private bool IsAdjacent(int targetX, int targetY)
     {
         int deltaX = Mathf.Abs(targetX - MapUI.Instance.GetCurrentZoneX());
